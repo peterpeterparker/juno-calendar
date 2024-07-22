@@ -10,14 +10,18 @@
 	let showModal = false;
 
 	let inputText = '';
-	let file: File | undefined = undefined;
 
-	let inputFile: HTMLInputElement | null = null;
+	let selectedDateInput = '';
+	let selectedDate: Date | undefined;
+	const onChange = () =>
+		selectedDateInput !== undefined && selectedDateInput !== ''
+			? new Date(selectedDateInput)
+			: undefined;
 
 	let progress = false;
 
 	let valid = false;
-	$: valid = inputText !== '' && $userSignedIn;
+	$: valid = inputText !== '' && selectedDate !== undefined && $userSignedIn;
 
 	const reload = () => {
 		const event = new CustomEvent('exampleReload');
@@ -33,20 +37,6 @@
 		progress = true;
 
 		try {
-			let url;
-
-			if (file !== undefined) {
-				const filename = `${$userStore.key}-${file.name}`;
-
-				const { downloadUrl } = await uploadFile({
-					collection: 'images',
-					data: file,
-					filename
-				});
-
-				url = downloadUrl;
-			}
-
 			const key = nanoid();
 
 			await setDoc<Note>({
@@ -54,8 +44,7 @@
 				doc: {
 					key,
 					data: {
-						text: inputText,
-						...(url !== undefined && { url })
+						text: inputText
 					}
 				}
 			});
@@ -69,11 +58,6 @@
 
 		progress = false;
 	};
-
-	const onChangeFile = ($event: Event) =>
-		(file = ($event as unknown as { target: EventTarget & HTMLInputElement }).target?.files?.[0]);
-
-	const openSelectFile = () => inputFile?.click();
 </script>
 
 <Button on:click={() => (showModal = true)}>
@@ -92,48 +76,30 @@
 {#if showModal}
 	<div class="fixed inset-0 z-50 p-16 md:px-24 md:py-44 animate-fade" role="dialog">
 		<div class="relative w-full max-w-xl">
-			<textarea
-				class="form-control block w-full px-3 py-1.5 text-base font-normal m-0 resize-none border-black border-[3px] rounded-sm bg-white shadow-[5px_5px_0px_rgba(0,0,0,1)] focus:outline-none"
-				rows={7}
-				placeholder="Your diary entry"
-				bind:value={inputText}
-				disabled={progress}
-			></textarea>
+			<div>
+				<label for="event-name">Your event name:</label>
+				<input
+					id="event-name"
+					class="form-control block w-full mt-2 px-3 py-1.5 text-base font-normal m-0 resize-none border-black border-[3px] rounded-sm bg-white shadow-[5px_5px_0px_rgba(0,0,0,1)] focus:outline-none"
+					class:opacity-50={progress}
+					bind:value={inputText}
+					disabled={progress}
+				/>
+			</div>
 
-			<div role="toolbar" class="flex justify-between items-center">
-				<div>
-					<button
-						aria-label="Attach a file to the entry"
-						class="flex gap-2 items-center hover:text-lavender-blue-600 active:text-lavender-blue-400"
-						on:click={openSelectFile}
-					>
-						<svg
-							width="20"
-							xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 0 29 29"
-							fill="currentColor"
-						>
-							<g>
-								<rect fill="none" class="opacity-25" width="29" height="29" />
-								<path
-									d="M8.36,26.92c-2,0-3.88-.78-5.29-2.19C.15,21.81.15,17.06,3.06,14.14L12.57,4.64c.39-.39,1.02-.39,1.41,0s.39,1.02,0,1.41L4.48,15.56c-2.14,2.14-2.14,5.62,0,7.76,1.04,1.04,2.41,1.61,3.88,1.61s2.84-.57,3.88-1.61l12.79-12.79c1.47-1.47,1.47-3.87,0-5.34-1.47-1.47-3.87-1.47-5.34,0l-12.45,12.45c-.73.73-.73,1.91,0,2.64.73.73,1.91.73,2.64,0l9.17-9.17c.39-.39,1.02-.39,1.41,0s.39,1.02,0,1.41l-9.17,9.17c-1.51,1.51-3.96,1.51-5.47,0-1.51-1.51-1.51-3.96,0-5.47L18.26,3.77c2.25-2.25,5.92-2.25,8.17,0s2.25,5.92,0,8.17l-12.79,12.79c-1.41,1.41-3.29,2.19-5.29,2.19Z"
-								/>
-							</g>
-						</svg>
-						<span class="truncate max-w-48">
-							<small>{file !== undefined ? file.name : 'Attach file'}</small>
-						</span>
-					</button>
+			<div class="flex flex-col mt-4">
+				<label for="selected-date">Selected date:</label>
+				<input
+					bind:value={selectedDateInput}
+					id="selected-date"
+					name="selected-date"
+					type="date"
+					on:change={onChange}
+					class="form-control block w-full mt-2 px-3 py-1.5 text-base font-normal m-0 resize-none border-black border-[3px] rounded-sm bg-white shadow-[5px_5px_0px_rgba(0,0,0,1)] focus:outline-none"
+				/>
+			</div>
 
-					<input
-						type="file"
-						class="fixed right-0 -bottom-24 opacity-0"
-						on:change={onChangeFile}
-						disabled={progress}
-						bind:this={inputFile}
-					/>
-				</div>
-
+			<div role="toolbar" class="flex justify-end items-center">
 				{#if progress}
 					<div
 						class="my-8 animate-spin inline-block w-6 h-6 border-[3px] border-current border-t-transparent text-indigo-600 rounded-full"
