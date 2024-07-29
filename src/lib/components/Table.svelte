@@ -2,6 +2,7 @@
 	import type { EventData } from '$lib/types/events';
 	import { type Doc, listDocs } from '@junobuild/core-peer';
 	import { userNotSignedIn, userSignedIn } from '$lib/derived/user.derived';
+	import EventCell from '$lib/components/EventCell.svelte';
 
 	let items: Doc<EventData>[] = [];
 
@@ -39,9 +40,7 @@
 					{index + 1}
 				</span>
 				<div role="cell" class="line-clamp-3 overflow-hidden grow">
-					{#each item.data.dates as myDate}
-						{new Date(myDate).toISOString()}
-					{/each}
+					<EventCell eventDoc={item} />
 				</div>
 			</div>
 		{/each}
