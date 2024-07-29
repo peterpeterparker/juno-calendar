@@ -3,15 +3,17 @@
 	import { initSatellite } from '@junobuild/core-peer';
 	import Footer from '$lib/components/Footer.svelte';
 	import '../app.css';
+	import { appState } from '$lib/stores/app.store';
 
-	onMount(
-		async () =>
-			await initSatellite({
-				workers: {
-					auth: true
-				}
-			})
-	);
+	onMount(async () => {
+		await initSatellite({
+			workers: {
+				auth: true
+			}
+		});
+
+		appState.set('initialized');
+	});
 </script>
 
 <div class="relative isolate min-h-[100dvh]">
