@@ -2,9 +2,9 @@
 	import Backdrop from '$lib/components/Backdrop.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import { userSignedIn } from '$lib/derived/user.derived';
-	import { setDoc, uploadFile } from '@junobuild/core-peer';
+	import { setDoc } from '@junobuild/core-peer';
 	import { nanoid } from 'nanoid';
-	import type { Note } from '$lib/types/note';
+	import type { EventData } from '$lib/types/events';
 	import { userStore } from '$lib/stores/user.store';
 
 	let showModal = false;
@@ -14,9 +14,10 @@
 	let selectedDateInput = '';
 	let selectedDate: Date | undefined;
 	const onChange = () =>
-		selectedDateInput !== undefined && selectedDateInput !== ''
-			? new Date(selectedDateInput)
-			: undefined;
+		(selectedDate =
+			selectedDateInput !== undefined && selectedDateInput !== ''
+				? new Date(selectedDateInput)
+				: undefined);
 
 	let progress = false;
 
@@ -36,15 +37,20 @@
 
 		progress = true;
 
+		if (selectedDate === undefined) {
+			// TODO: handle errors
+			return;
+		}
+
 		try {
 			const key = nanoid();
 
-			await setDoc<Note>({
-				collection: 'notes',
+			await setDoc<EventData>({
+				collection: 'events',
 				doc: {
 					key,
 					data: {
-						text: inputText
+						dates: [selectedDate.getTime()]
 					}
 				}
 			});
