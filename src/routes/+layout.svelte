@@ -3,7 +3,6 @@
 	import { initSatellite } from '@junobuild/core-peer';
 	import Footer from '$lib/components/Footer.svelte';
 	import '../app.css';
-	import Auth from '$lib/components/Auth.svelte';
 
 	onMount(
 		async () =>
