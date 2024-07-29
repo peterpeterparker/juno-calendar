@@ -1,5 +1,4 @@
 <script lang="ts">
-
 	import type { Doc } from '@junobuild/core-peer';
 	import type { EventData } from '$lib/types/events';
 
@@ -9,7 +8,7 @@
 	$: displayDate = new Date(eventDoc.data.dates[0]).toISOString();
 
 	let shareUrl: string;
-	$: shareUrl = `http://localhost:5173/?event=${eventDoc.key}`
+	$: shareUrl = `http://localhost:5173/?event=${eventDoc.key}`;
 </script>
 
 <div class="flex items-center justify-center gap-2">
@@ -22,12 +21,7 @@
 		target="_blank"
 		class="hover:text-lavender-blue-500 active:text-lavender-blue-400"
 	>
-		<svg
-			width="16"
-			xmlns="http://www.w3.org/2000/svg"
-			viewBox="0 0 29 29"
-			fill="currentColor"
-		>
+		<svg width="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29 29" fill="currentColor">
 			<g>
 				<rect fill="none" class="opacity-25" width="29" height="29" />
 				<path
