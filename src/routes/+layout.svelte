@@ -20,9 +20,7 @@
 		<h1 class="dark:text-white text-5xl md:text-6xl font-extrabold md:pt-16">Juno Calendar</h1>
 
 		<div class="w-full max-w-2xl mt-8 grid grid-cols-2 gap-8">
-			<Auth>
-				<slot />
-			</Auth>
+			<slot />
 		</div>
 	</main>
 

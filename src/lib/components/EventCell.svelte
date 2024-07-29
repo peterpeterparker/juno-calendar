@@ -8,7 +8,7 @@
 	$: displayDate = new Date(eventDoc.data.dates[0]).toISOString();
 
 	let shareUrl: string;
-	$: shareUrl = `http://localhost:5173/?event=${eventDoc.key}`;
+	$: shareUrl = `http://localhost:5173/event/?key=${eventDoc.key}`;
 </script>
 
 <div class="flex items-center justify-center gap-2">
