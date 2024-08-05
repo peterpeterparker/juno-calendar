@@ -3,6 +3,7 @@
 	import { type Doc, listDocs } from '@junobuild/core-peer';
 	import { userNotSignedIn, userSignedIn } from '$lib/derived/user.derived';
 	import EventCell from '$lib/components/EventCell.svelte';
+	import { userStore } from '$lib/stores/user.store';
 
 	let items: Doc<EventData>[] = [];
 
@@ -12,9 +13,16 @@
 			return;
 		}
 
+		if ($userStore?.key === undefined) {
+			items = [];
+			return;
+		}
+
 		const { items: data } = await listDocs<EventData>({
 			collection: 'events',
-			filter: {}
+			filter: {
+				owner: $userStore.key
+			}
 		});
 
 		items = data;

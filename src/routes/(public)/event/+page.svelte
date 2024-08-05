@@ -22,25 +22,29 @@
 			collection: 'events',
 			key: $eventKey
 		});
+
+		console.log(eventDoc);
 	};
 
 	$: $eventKey, $appState, (async () => await loadEvent())();
 </script>
 
-<div class="w-full max-w-2xl mt-8 dark:text-white" role="table">
-	<div class="py-2" role="rowgroup">
-		<div
-			class="flex items-center gap-2 px-3 mb-4 border-black dark:border-lavender-blue-500 border-[3px] rounded bg-white dark:bg-black dark:text-white transition-all shadow-[8px_8px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_#7888FF]"
-			role="row"
-		>
-			<span role="cell" aria-rowindex={0} class="p-1 flex align-center min-w-max">
-				{0 + 1}
-			</span>
-			<div role="cell" class="line-clamp-3 overflow-hidden grow">
-				{#if eventDoc !== undefined}
+{#if eventDoc !== undefined}
+	<div class="w-full max-w-2xl mt-8 dark:text-white" role="table">
+		<div class="py-2" role="rowgroup">
+			<div
+				class="flex items-center gap-2 px-3 mb-4 border-black dark:border-lavender-blue-500 border-[3px] rounded bg-white dark:bg-black dark:text-white transition-all shadow-[8px_8px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_#7888FF]"
+				role="row"
+			>
+				<span role="cell" aria-rowindex={0} class="p-1 flex align-center min-w-max">
+					{0 + 1}
+				</span>
+				<div role="cell" class="line-clamp-3 overflow-hidden grow">
 					<EventCell {eventDoc} />
-				{/if}
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
+{:else}
+	<p class="dark:text-white">No corresponding event. 🤨</p>
+{/if}
