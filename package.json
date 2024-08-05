@@ -2,6 +2,7 @@
 	"name": "juno-calendar",
 	"version": "0.0.1",
 	"private": true,
+	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "tsc --noEmit && vite build",
@@ -35,7 +36,6 @@
 		"typescript-eslint": "^7.5.0",
 		"vite": "^5.0.3"
 	},
-	"type": "module",
 	"dependencies": {
 		"@junobuild/core-peer": "^0.0.22"
 	}
