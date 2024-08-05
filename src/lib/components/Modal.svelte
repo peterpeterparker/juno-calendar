@@ -11,18 +11,27 @@
 
 	let inputText = '';
 
-	let selectedDateInput = '';
-	let selectedDate: Date | undefined;
+	let selectedDate1Input = '';
+	let selectedDate1: Date | undefined;
 	const onChange = () =>
-		(selectedDate =
-			selectedDateInput !== undefined && selectedDateInput !== ''
-				? new Date(selectedDateInput)
+		(selectedDate1 =
+			selectedDate1Input !== undefined && selectedDate1Input !== ''
+				? new Date(selectedDate1Input)
+				: undefined);
+
+
+	let selectedDate2Input = '';
+	let selectedDate2: Date | undefined;
+	const onChange2 = () =>
+		(selectedDate2 =
+			selectedDate2Input !== undefined && selectedDate2Input !== ''
+				? new Date(selectedDate2Input)
 				: undefined);
 
 	let progress = false;
 
 	let valid = false;
-	$: valid = inputText !== '' && selectedDate !== undefined && $userSignedIn;
+	$: valid = inputText !== '' && selectedDate1 !== undefined && $userSignedIn;
 
 	const reload = () => {
 		const event = new CustomEvent('exampleReload');
@@ -37,7 +46,7 @@
 
 		progress = true;
 
-		if (selectedDate === undefined) {
+		if (selectedDate1 === undefined || selectedDate2 === undefined) {
 			// TODO: handle errors
 			return;
 		}
@@ -50,7 +59,7 @@
 				doc: {
 					key,
 					data: {
-						dates: [selectedDate.getTime()]
+						dates: [selectedDate1.getTime(), selectedDate2.getTime()]
 					}
 				}
 			});
@@ -94,13 +103,21 @@
 			</div>
 
 			<div class="flex flex-col mt-4">
-				<label for="selected-date">Selected date:</label>
+				<p>Selected dates:</p>
 				<input
-					bind:value={selectedDateInput}
+					bind:value={selectedDate1Input}
 					id="selected-date"
 					name="selected-date"
 					type="date"
 					on:change={onChange}
+					class="form-control block w-full mt-2 px-3 py-1.5 text-base font-normal m-0 resize-none border-black border-[3px] rounded-sm bg-white shadow-[5px_5px_0px_rgba(0,0,0,1)] focus:outline-none"
+				/>
+				<input
+					bind:value={selectedDate2Input}
+					id="selected-date"
+					name="selected-date"
+					type="date"
+					on:change={onChange2}
 					class="form-control block w-full mt-2 px-3 py-1.5 text-base font-normal m-0 resize-none border-black border-[3px] rounded-sm bg-white shadow-[5px_5px_0px_rgba(0,0,0,1)] focus:outline-none"
 				/>
 			</div>

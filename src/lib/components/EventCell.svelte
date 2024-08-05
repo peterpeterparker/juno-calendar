@@ -4,15 +4,16 @@
 
 	export let eventDoc: Doc<EventData>;
 
-	let displayDate: string;
-	$: displayDate = new Date(eventDoc.data.dates[0]).toISOString();
-
 	let shareUrl: string;
 	$: shareUrl = `http://localhost:5173/event/?key=${eventDoc.key}`;
 </script>
 
 <div class="flex items-center justify-center gap-2">
-	<output>{displayDate}</output>
+	<div class="flex flex-col">
+		{#each eventDoc.data.dates as date}
+			<output>{new Date(date).toISOString()}</output>
+		{/each}
+	</div>
 
 	<a
 		aria-label="Share event link"
