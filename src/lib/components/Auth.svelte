@@ -3,8 +3,8 @@
 	import { authSubscribe } from '@junobuild/core-peer';
 	import { userStore } from '$lib/stores/user.store';
 	import { userSignedIn } from '$lib/derived/user.derived';
-	import Logout from '$lib/components/Logout.svelte';
 	import Login from '$lib/components/Login.svelte';
+	import { fade } from 'svelte/transition';
 
 	let unsubscribe: (() => void) | undefined = undefined;
 
@@ -17,10 +17,8 @@
 <svelte:window on:junoSignOutAuthTimer={automaticSignOut} />
 
 {#if $userSignedIn}
-	<div>
+	<div in:fade>
 		<slot />
-
-		<Logout />
 	</div>
 {:else}
 	<Login />

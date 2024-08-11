@@ -4,6 +4,8 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import '../app.css';
 	import { appState } from '$lib/stores/app.store';
+	import Navbar from '$lib/components/Navbar.svelte';
+	import Alert from '$lib/components/Alert.svelte';
 
 	onMount(async () => {
 		await initSatellite({
@@ -16,14 +18,15 @@
 	});
 </script>
 
-<div class="relative isolate min-h-[100dvh]">
-	<main class="mx-auto max-w-screen-2xl py-16 px-8 md:px-24 tall:min-h-[calc(100dvh-128px)]">
-		<h1 class="dark:text-white text-5xl md:text-6xl font-extrabold md:pt-16">Juno Calendar</h1>
+<div class="flex flex-col min-h-screen bg-base-200">
+	<Navbar />
 
-		<div class="w-full max-w-2xl mt-8 grid grid-cols-2 gap-8">
-			<slot />
-		</div>
-	</main>
+	<!-- Main Content -->
+	<div class="flex-grow container mx-auto px-4 py-8">
+		<Alert />
+
+		<slot />
+	</div>
 
 	<Footer />
 </div>
