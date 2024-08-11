@@ -1,5 +1,5 @@
-import type { LoadEvent } from '@sveltejs/kit';
 import { browser } from '$app/environment';
+import type { LoadEvent } from '@sveltejs/kit';
 
 export type RouteKey = { key: string | null | undefined };
 

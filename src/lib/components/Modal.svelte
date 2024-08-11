@@ -19,7 +19,6 @@
 				? new Date(selectedDate1Input)
 				: undefined);
 
-
 	let selectedDate2Input = '';
 	let selectedDate2: Date | undefined;
 	const onChange2 = () =>

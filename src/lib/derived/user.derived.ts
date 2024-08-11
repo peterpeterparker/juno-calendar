@@ -1,5 +1,5 @@
-import { derived, type Readable } from 'svelte/store';
 import { userStore } from '$lib/stores/user.store';
+import { derived, type Readable } from 'svelte/store';
 
 export const userSignedIn: Readable<boolean> = derived(
 	userStore,
