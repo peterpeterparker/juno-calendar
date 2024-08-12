@@ -45,6 +45,7 @@
 			<tr>
 				<th class="p-2 text-left">Title</th>
 				<th class="p-2 text-left">Dates</th>
+				<th class="p-2 text-left">Answers</th>
 				<th class="p-2 text-left">Link</th>
 				<th class="p-2 text-left">Actions</th>
 			</tr>

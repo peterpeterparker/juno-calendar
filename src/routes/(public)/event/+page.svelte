@@ -73,15 +73,24 @@
 			return;
 		}
 
+		if (eventDoc === undefined) {
+			alertStore.set({
+				type: 'error',
+				message: 'The event has not been initialized. That is unexpected.'
+			});
+			return;
+		}
+
 		progress = true;
 
 		try {
-			const key = nanoid();
+			const answerKey = nanoid();
 
 			await setDoc<AnswersData>({
 				collection: 'answers',
 				doc: {
-					key,
+					key: answerKey,
+					description: eventDoc?.key,
 					data: {
 						firstname,
 						answers
