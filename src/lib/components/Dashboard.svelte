@@ -33,24 +33,26 @@
 
 <svelte:window on:exampleReload={list} />
 
-<div class="w-full max-w-2xl mt-8 dark:text-white" role="table">
-	<div role="row">
-		<span role="columnheader" aria-sort="none"> Events </span>
-	</div>
+<div class="flex justify-between items-center mb-8">
+	<h1 class="text-2xl font-semibold">Your Events</h1>
+	<a class="btn btn-accent" href="/create-event">Create New Event</a>
+</div>
 
-	<div class="py-2" role="rowgroup">
-		{#each items as item, index}
-			<div
-				class="flex items-center gap-2 px-3 mb-4 border-black dark:border-lavender-blue-500 border-[3px] rounded bg-white dark:bg-black dark:text-white transition-all shadow-[8px_8px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_#7888FF]"
-				role="row"
-			>
-				<span role="cell" aria-rowindex={index} class="p-1 flex align-center min-w-max">
-					{index + 1}
-				</span>
-				<div role="cell" class="line-clamp-3 overflow-hidden grow">
-					<EventCell eventDoc={item} />
-				</div>
-			</div>
-		{/each}
-	</div>
+<!-- Events Table -->
+<div class="overflow-x-auto space-y-6 bg-base-100 p-6 rounded-lg shadow-md">
+	<table class="table w-full min-w-[600px]">
+		<thead>
+			<tr>
+				<th class="p-2 text-left">Title</th>
+				<th class="p-2 text-left">Dates</th>
+				<th class="p-2 text-left">Link</th>
+				<th class="p-2 text-left">Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{#each items as item}
+				<EventCell eventDoc={item} />
+			{/each}
+		</tbody>
+	</table>
 </div>

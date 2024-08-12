@@ -1,8 +1,5 @@
 <script lang="ts">
-	import Modal from '$lib/components/Modal.svelte';
-	import Table from '$lib/components/Table.svelte';
+	import Dashboard from '$lib/components/Dashboard.svelte';
 </script>
 
-<Table />
-
-<Modal />
+<Dashboard />
