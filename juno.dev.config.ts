@@ -10,6 +10,13 @@ export default defineDevConfig(() => ({
 					read: 'public' as const,
 					write: 'managed' as const,
 					mutablePermissions: true
+				},
+				{
+					collection: 'answers',
+					memory: 'stable' as const,
+					read: 'public' as const,
+					write: 'public' as const,
+					mutablePermissions: true
 				}
 			],
 			storage: []
