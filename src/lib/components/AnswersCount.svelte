@@ -2,7 +2,6 @@
 	import { type Doc, listDocs } from '@junobuild/core-peer';
 	import type { EventData } from '$lib/types/events';
 	import { onMount } from 'svelte';
-	import { userStore } from '$lib/stores/user.store';
 	import type { AnswersData } from '$lib/types/answers';
 
 	export let eventDoc: Doc<EventData>;
