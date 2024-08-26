@@ -1,13 +1,20 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
-struct Answer {
-    firstname: String,
-    answers: Vec<AnswerData>,
+pub struct EventsData {
+    pub title: String,
+    pub dates: Vec<u64>,
+    pub count_answers: Option<usize>,
 }
 
 #[derive(Serialize, Deserialize)]
-struct AnswerData {
-    date: u64,
-    checked: bool,
+pub struct AnswersData {
+    pub firstname: String,
+    pub answers: Vec<AnswerData>,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct AnswerData {
+    pub date: u64,
+    pub checked: bool,
 }
