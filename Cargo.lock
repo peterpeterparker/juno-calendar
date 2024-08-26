@@ -1144,6 +1144,7 @@ dependencies = [
  "ic-cdk-macros",
  "junobuild-macros",
  "junobuild-satellite",
+ "junobuild-shared",
  "junobuild-utils",
  "serde",
  "serde_cbor",

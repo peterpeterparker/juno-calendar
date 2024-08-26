@@ -15,4 +15,5 @@ serde_cbor = "0.11.2"
 junobuild-satellite = "0.0.20"
 junobuild-macros = "0.0.2"
 junobuild-utils = "0.0.3"
+junobuild-shared = "0.0.18"
 
