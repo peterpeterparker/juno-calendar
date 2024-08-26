@@ -9,13 +9,15 @@ use junobuild_satellite::{
     OnDeleteManyDocsContext, OnSetDocContext, OnSetManyDocsContext, OnUploadAssetContext,
 };
 
-#[on_set_doc]
+#[on_set_doc(collections = ["answers"])]
 async fn on_set_doc(_context: OnSetDocContext) -> Result<(), String> {
 
     // TODO:
     // If context target collection is "answers" then
     // Count answers for "description" field
     // Save count in "events" collection
+
+    ic_cdk::print("----___ ANSWERS ___----> on_set_doc");
 
     Ok(())
 }
