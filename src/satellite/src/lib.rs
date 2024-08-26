@@ -1,4 +1,5 @@
 mod types;
+mod answers;
 
 use junobuild_shared::types::list::{ListMatcher, ListParams};
 use ic_cdk::id;
@@ -8,37 +9,15 @@ use junobuild_macros::{
     on_upload_asset,
 };
 use junobuild_satellite::{include_satellite, AssertDeleteAssetContext, AssertDeleteDocContext, AssertSetDocContext, AssertUploadAssetContext, OnDeleteAssetContext, OnDeleteDocContext, OnDeleteManyAssetsContext, OnDeleteManyDocsContext, OnSetDocContext, OnSetManyDocsContext, OnUploadAssetContext, count_docs_store};
+use crate::answers::count_and_save_answers;
 
 #[on_set_doc(collections = ["answers"])]
 async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
-
-    let collection = context.data.collection;
     let event_key = context.data.data.after.description;
 
     match event_key {
         Some(event_key) => {
-            // TODO:
-            // If context target collection is "answers" then
-            // Count answers for "description" field
-            // Save count in "events" collection
-
-            let params: ListParams = ListParams {
-                owner: None,
-                matcher: Some(ListMatcher {
-                    description: Some(event_key.clone()),
-                    key: None,
-                    updated_at: None,
-                    created_at: None,
-                }),
-                order: None,
-                paginate: None,
-            };
-
-            let count = count_docs_store(id(), collection, &params)?;
-
-            ic_cdk::print(format!("----___ ANSWERS ___----> on_set_doc {} {}", event_key, count));
-
-            Ok(())
+            count_and_save_answers(&event_key)
         },
         None => {
             Err("This is unexpected".to_string())
