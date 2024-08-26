@@ -1,25 +1,49 @@
+mod types;
+
+use junobuild_shared::types::list::{ListMatcher, ListParams};
+use ic_cdk::id;
 use junobuild_macros::{
     assert_delete_asset, assert_delete_doc, assert_set_doc, assert_upload_asset, on_delete_asset,
     on_delete_doc, on_delete_many_assets, on_delete_many_docs, on_set_doc, on_set_many_docs,
     on_upload_asset,
 };
-use junobuild_satellite::{
-    include_satellite, AssertDeleteAssetContext, AssertDeleteDocContext, AssertSetDocContext,
-    AssertUploadAssetContext, OnDeleteAssetContext, OnDeleteDocContext, OnDeleteManyAssetsContext,
-    OnDeleteManyDocsContext, OnSetDocContext, OnSetManyDocsContext, OnUploadAssetContext,
-};
+use junobuild_satellite::{include_satellite, AssertDeleteAssetContext, AssertDeleteDocContext, AssertSetDocContext, AssertUploadAssetContext, OnDeleteAssetContext, OnDeleteDocContext, OnDeleteManyAssetsContext, OnDeleteManyDocsContext, OnSetDocContext, OnSetManyDocsContext, OnUploadAssetContext, count_docs_store};
 
 #[on_set_doc(collections = ["answers"])]
-async fn on_set_doc(_context: OnSetDocContext) -> Result<(), String> {
+async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
 
-    // TODO:
-    // If context target collection is "answers" then
-    // Count answers for "description" field
-    // Save count in "events" collection
+    let collection = context.data.collection;
+    let event_key = context.data.data.after.description;
 
-    ic_cdk::print("----___ ANSWERS ___----> on_set_doc");
+    match event_key {
+        Some(event_key) => {
+            // TODO:
+            // If context target collection is "answers" then
+            // Count answers for "description" field
+            // Save count in "events" collection
 
-    Ok(())
+            let params: ListParams = ListParams {
+                owner: None,
+                matcher: Some(ListMatcher {
+                    description: Some(event_key.clone()),
+                    key: None,
+                    updated_at: None,
+                    created_at: None,
+                }),
+                order: None,
+                paginate: None,
+            };
+
+            let count = count_docs_store(id(), collection, &params)?;
+
+            ic_cdk::print(format!("----___ ANSWERS ___----> on_set_doc {} {}", event_key, count));
+
+            Ok(())
+        },
+        None => {
+            Err("This is unexpected".to_string())
+        }
+    }
 }
 
 #[on_set_many_docs]
