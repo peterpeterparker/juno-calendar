@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { type Doc, listDocs } from '@junobuild/core-peer';
+	import { countDocs, type Doc } from '@junobuild/core-peer';
 	import type { EventData } from '$lib/types/events';
 	import { onMount } from 'svelte';
-	import type { AnswersData } from '$lib/types/answers';
 
 	export let eventDoc: Doc<EventData>;
 
@@ -10,7 +9,7 @@
 
 	onMount(async () => {
 		// TODO: catch errors
-		const { items_length } = await listDocs<AnswersData>({
+		count = await countDocs({
 			collection: 'answers',
 			filter: {
 				matcher: {
@@ -18,8 +17,6 @@
 				}
 			}
 		});
-
-		count = items_length;
 	});
 </script>
 
