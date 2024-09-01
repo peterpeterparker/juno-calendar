@@ -60,13 +60,15 @@ fn convert_svg_to_png(svg_data: &str, width: u32, height: u32) -> Result<Vec<u8>
 }
 
 pub fn insert_asset(name: &String, data: &Vec<u8>) -> Result<(), String> {
-    print(format!("Json: {} {}", name, data.len()));
+    print(format!("Image: {} {}", name, data.len()));
 
     let collection = "images".to_string();
 
+    let full_path = format!("/{}/{}.png", collection, name.clone()).to_string();
+
     let key: AssetKey = AssetKey {
         name: name.clone(),
-        full_path: format!("/{}/{}.png", collection, name.clone()).to_string(),
+        full_path: full_path.clone(),
         token: None,
         collection,
         owner: id(),
@@ -78,5 +80,9 @@ pub fn insert_asset(name: &String, data: &Vec<u8>) -> Result<(), String> {
         "image/png".to_string(),
     )];
 
-    set_asset_handler(&key, data, &headers)
+    set_asset_handler(&key, data, &headers)?;
+
+    print(format!("Image generated to: http://{}.localhost:5987{}", id(), full_path));
+
+    Ok(())
 }
