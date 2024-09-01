@@ -6,10 +6,9 @@ use tiny_skia::Pixmap;
 use junobuild_storage::types::store::AssetKey;
 use junobuild_storage::http::types::HeaderField;
 use junobuild_utils::decode_doc_data;
+use crate::svg_text_path::text_to_svg_path;
 use crate::templates::{FONT_DATA, SOCIAL_IMAGE_TEMPLATE};
 use crate::types::EventsData;
-use rusttype::{point, Font, Scale};
-use crate::impls::SvgPathBuilder;
 
 pub fn generate_social_image(context: &OnSetDocContext) -> Result<(), String> {
     let svg_data = prepare_svg(context)?;
@@ -88,26 +87,6 @@ pub fn insert_asset(name: &String, data: &Vec<u8>) -> Result<(), String> {
     print(format!("Image generated to: http://{}.localhost:5987{}", id(), full_path));
 
     Ok(())
-}
-
-fn text_to_svg_path(text: &str, font_data: &[u8], font_size: f32) -> Result<String, String> {
-    let font = Font::try_from_bytes(font_data).ok_or("Error loading font")?;
-    let scale = Scale::uniform(font_size);
-    let v_metrics = font.v_metrics(scale);
-
-    let mut path_data = String::new();
-
-    for glyph in font.layout(text, scale, point(0.0, v_metrics.ascent)) {
-        let mut builder = SvgPathBuilder {
-            path_data: String::new(),
-        };
-
-        glyph.build_outline(&mut builder);
-
-        path_data.push_str(&builder.path_data);
-    }
-
-    Ok(format!(r#"<path fill="black" stroke="none" d="{}"/>"#, path_data))
 }
 
 pub fn prepare_svg(context: &OnSetDocContext) -> Result<String, String> {

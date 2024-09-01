@@ -2,7 +2,7 @@ mod answers;
 mod images;
 mod types;
 mod templates;
-mod impls;
+mod svg_text_path;
 
 use crate::answers::count_event_answers;
 use crate::images::generate_social_image;
