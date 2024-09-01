@@ -6,8 +6,10 @@ use tiny_skia::Pixmap;
 use junobuild_storage::types::store::AssetKey;
 use junobuild_storage::http::types::HeaderField;
 use junobuild_utils::decode_doc_data;
-use crate::templates::{SOCIAL_IMAGE_TEMPLATE};
+use crate::templates::{FONT_DATA, SOCIAL_IMAGE_TEMPLATE};
 use crate::types::EventsData;
+use rusttype::{point, Font, Scale};
+use crate::impls::SvgPathBuilder;
 
 pub fn generate_social_image(context: &OnSetDocContext) -> Result<(), String> {
     let svg_data = prepare_svg(context)?;
@@ -88,10 +90,33 @@ pub fn insert_asset(name: &String, data: &Vec<u8>) -> Result<(), String> {
     Ok(())
 }
 
+fn text_to_svg_path(text: &str, font_data: &[u8], font_size: f32) -> Result<String, String> {
+    let font = Font::try_from_bytes(font_data).ok_or("Error loading font")?;
+    let scale = Scale::uniform(font_size);
+    let v_metrics = font.v_metrics(scale);
+
+    let mut path_data = String::new();
+
+    for glyph in font.layout(text, scale, point(0.0, v_metrics.ascent)) {
+        let mut builder = SvgPathBuilder {
+            path_data: String::new(),
+        };
+
+        glyph.build_outline(&mut builder);
+
+        path_data.push_str(&builder.path_data);
+    }
+
+    Ok(format!(r#"<path fill="black" stroke="none" d="{}"/>"#, path_data))
+}
+
 pub fn prepare_svg(context: &OnSetDocContext) -> Result<String, String> {
     let event: EventsData = decode_doc_data(&context.data.data.after.data)?;
 
-    let svg_data = SOCIAL_IMAGE_TEMPLATE.replace("{{title}}", &event.title);
+    let svg_path_data = text_to_svg_path(&event.title, FONT_DATA, 48.0)?;
+
+    let svg_data = SOCIAL_IMAGE_TEMPLATE
+        .replace("{{title}}", &svg_path_data);
 
     Ok(svg_data)
 }
