@@ -1,6 +1,7 @@
 mod answers;
 mod images;
 mod types;
+mod templates;
 
 use crate::answers::count_event_answers;
 use crate::images::generate_social_image;

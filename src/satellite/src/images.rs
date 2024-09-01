@@ -5,15 +5,16 @@ use resvg::usvg::{Options, Transform, Tree};
 use tiny_skia::Pixmap;
 use junobuild_storage::types::store::AssetKey;
 use junobuild_storage::http::types::HeaderField;
+use junobuild_utils::decode_doc_data;
+use crate::templates::{SOCIAL_IMAGE_TEMPLATE};
+use crate::types::EventsData;
 
 pub fn generate_social_image(context: &OnSetDocContext) -> Result<(), String> {
-    let svg_data = r#"<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
-                      <circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />
-                      </svg>"#;
+    let svg_data = prepare_svg(context)?;
 
     print(format!("Svg ----> {}", svg_data));
 
-    let png_bytes = convert_svg_to_png(svg_data, 100, 100).expect("Failed to convert SVG to PNG");
+    let png_bytes = convert_svg_to_png(&svg_data, 1200, 630).expect("Failed to convert SVG to PNG");
 
     print(format!("Length ----> {}", png_bytes.len()));
 
@@ -85,4 +86,12 @@ pub fn insert_asset(name: &String, data: &Vec<u8>) -> Result<(), String> {
     print(format!("Image generated to: http://{}.localhost:5987{}", id(), full_path));
 
     Ok(())
+}
+
+pub fn prepare_svg(context: &OnSetDocContext) -> Result<String, String> {
+    let event: EventsData = decode_doc_data(&context.data.data.after.data)?;
+
+    let svg_data = SOCIAL_IMAGE_TEMPLATE.replace("{{title}}", &event.title);
+
+    Ok(svg_data)
 }
