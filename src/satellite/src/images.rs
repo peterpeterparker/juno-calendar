@@ -66,7 +66,7 @@ pub fn insert_asset(name: &String, data: &Vec<u8>) -> Result<(), String> {
 
     let key: AssetKey = AssetKey {
         name: name.clone(),
-        full_path: format!("/{}/{}", collection, name.clone()).to_string(),
+        full_path: format!("/{}/{}.png", collection, name.clone()).to_string(),
         token: None,
         collection,
         owner: id(),
