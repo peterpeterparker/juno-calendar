@@ -24,7 +24,7 @@ export default defineDevConfig(() => ({
 					collection: 'images',
 					memory: 'stable' as const,
 					read: 'public' as const,
-					write: 'public' as const,
+					write: 'controllers' as const,
 					mutablePermissions: true
 				}
 			]
