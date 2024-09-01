@@ -1,27 +1,26 @@
-mod types;
 mod answers;
+mod images;
+mod types;
 
-use junobuild_shared::types::list::{ListMatcher, ListParams};
-use ic_cdk::id;
+use crate::answers::count_event_answers;
+use crate::images::generate_social_image;
 use junobuild_macros::{
     assert_delete_asset, assert_delete_doc, assert_set_doc, assert_upload_asset, on_delete_asset,
     on_delete_doc, on_delete_many_assets, on_delete_many_docs, on_set_doc, on_set_many_docs,
     on_upload_asset,
 };
-use junobuild_satellite::{include_satellite, AssertDeleteAssetContext, AssertDeleteDocContext, AssertSetDocContext, AssertUploadAssetContext, OnDeleteAssetContext, OnDeleteDocContext, OnDeleteManyAssetsContext, OnDeleteManyDocsContext, OnSetDocContext, OnSetManyDocsContext, OnUploadAssetContext, count_docs_store};
-use crate::answers::count_and_save_answers;
+use junobuild_satellite::{
+    include_satellite, AssertDeleteAssetContext, AssertDeleteDocContext, AssertSetDocContext,
+    AssertUploadAssetContext, OnDeleteAssetContext, OnDeleteDocContext, OnDeleteManyAssetsContext,
+    OnDeleteManyDocsContext, OnSetDocContext, OnSetManyDocsContext, OnUploadAssetContext,
+};
 
-#[on_set_doc(collections = ["answers"])]
+#[on_set_doc(collections = ["answers","events"])]
 async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
-    let event_key = context.data.data.after.description;
-
-    match event_key {
-        Some(event_key) => {
-            count_and_save_answers(&event_key)
-        },
-        None => {
-            Err("This is unexpected".to_string())
-        }
+    match context.data.collection.as_str() {
+        "events" => generate_social_image(),
+        "answers" => count_event_answers(&context),
+        _ => Err("Not supported".to_string()),
     }
 }
 
