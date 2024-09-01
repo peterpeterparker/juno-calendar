@@ -1,23 +1,20 @@
-use ic_cdk::{id, print};
-use junobuild_satellite::{OnSetDocContext, set_asset_handler};
-use png::Encoder;
-use resvg::usvg::{Options, Transform, Tree};
-use tiny_skia::Pixmap;
-use junobuild_storage::types::store::AssetKey;
-use junobuild_storage::http::types::HeaderField;
-use junobuild_utils::decode_doc_data;
-use crate::svg_text_path::text_to_svg_path;
-use crate::templates::{FONT_DATA, SOCIAL_IMAGE_TEMPLATE};
+use crate::templates::SOCIAL_IMAGE_TEMPLATE;
 use crate::types::EventsData;
+use ic_cdk::{id, print};
+use junobuild_satellite::{set_asset_handler, OnSetDocContext};
+use junobuild_storage::http::types::HeaderField;
+use junobuild_storage::types::store::AssetKey;
+use junobuild_utils::decode_doc_data;
+use png::Encoder;
+use resvg::usvg::fontdb::Database;
+use resvg::usvg::{Options, Transform, Tree};
+use std::sync::Arc;
+use tiny_skia::Pixmap;
 
 pub fn generate_social_image(context: &OnSetDocContext) -> Result<(), String> {
     let svg_data = prepare_svg(context)?;
 
-    print(format!("Svg ----> {}", svg_data));
-
     let png_bytes = convert_svg_to_png(&svg_data, 1200, 630).expect("Failed to convert SVG to PNG");
-
-    print(format!("Length ----> {}", png_bytes.len()));
 
     insert_asset(&context.data.key, &png_bytes)?;
 
@@ -25,8 +22,19 @@ pub fn generate_social_image(context: &OnSetDocContext) -> Result<(), String> {
 }
 
 fn convert_svg_to_png(svg_data: &str, width: u32, height: u32) -> Result<Vec<u8>, String> {
+    // Initialize the font database and add the embedded font
+    let mut fontdb = Database::new();
+    fontdb.load_font_data(include_bytes!("OpenSans-Regular.ttf").to_vec());
+
+    // Set up options with the custom font database
+    let opt = Options {
+        fontdb: Arc::new(fontdb),
+        font_family: "Open Sans".to_owned(),
+        font_size: 48.0,
+        ..Options::default()
+    };
+
     // Parse SVG
-    let opt = Options::default();
     let rtree = Tree::from_str(svg_data, &opt).map_err(|e| e.to_string())?;
 
     // Get the size of the SVG from the tree's viewBox
@@ -62,8 +70,6 @@ fn convert_svg_to_png(svg_data: &str, width: u32, height: u32) -> Result<Vec<u8>
 }
 
 pub fn insert_asset(name: &String, data: &Vec<u8>) -> Result<(), String> {
-    print(format!("Image: {} {}", name, data.len()));
-
     let collection = "images".to_string();
 
     let full_path = format!("/{}/{}.png", collection, name.clone()).to_string();
@@ -84,7 +90,11 @@ pub fn insert_asset(name: &String, data: &Vec<u8>) -> Result<(), String> {
 
     set_asset_handler(&key, data, &headers)?;
 
-    print(format!("Image generated to: http://{}.localhost:5987{}", id(), full_path));
+    print(format!(
+        "Image generated to: http://{}.localhost:5987{}",
+        id(),
+        full_path
+    ));
 
     Ok(())
 }
@@ -92,10 +102,18 @@ pub fn insert_asset(name: &String, data: &Vec<u8>) -> Result<(), String> {
 pub fn prepare_svg(context: &OnSetDocContext) -> Result<String, String> {
     let event: EventsData = decode_doc_data(&context.data.data.after.data)?;
 
-    let svg_path_data = text_to_svg_path(&event.title, FONT_DATA, 48.0)?;
+    fn truncate_text(text: &str) -> String {
+        let max_chars = 13;
 
-    let svg_data = SOCIAL_IMAGE_TEMPLATE
-        .replace("{{title}}", &svg_path_data);
+        if text.chars().count() <= max_chars {
+            text.to_string()
+        } else {
+            let truncated: String = text.chars().take(max_chars).collect();
+            format!("{}...", truncated)
+        }
+    }
+
+    let svg_data = SOCIAL_IMAGE_TEMPLATE.replace("{{title}}", &truncate_text(&event.title));
 
     Ok(svg_data)
 }
