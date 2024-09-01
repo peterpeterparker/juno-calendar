@@ -1,12 +1,12 @@
 use ic_cdk::{id, print};
-use junobuild_satellite::set_asset_handler;
+use junobuild_satellite::{OnSetDocContext, set_asset_handler};
 use png::Encoder;
 use resvg::usvg::{Options, Transform, Tree};
 use tiny_skia::Pixmap;
 use junobuild_storage::types::store::AssetKey;
 use junobuild_storage::http::types::HeaderField;
 
-pub fn generate_social_image() -> Result<(), String> {
+pub fn generate_social_image(context: &OnSetDocContext) -> Result<(), String> {
     let svg_data = r#"<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
                       <circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />
                       </svg>"#;
@@ -16,6 +16,8 @@ pub fn generate_social_image() -> Result<(), String> {
     let png_bytes = convert_svg_to_png(svg_data, 100, 100).expect("Failed to convert SVG to PNG");
 
     print(format!("Length ----> {}", png_bytes.len()));
+
+    insert_asset(&context.data.key, &png_bytes)?;
 
     Ok(())
 }
