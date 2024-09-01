@@ -1,7 +1,10 @@
-use ic_cdk::print;
+use ic_cdk::{id, print};
+use junobuild_satellite::set_asset_handler;
 use png::Encoder;
 use resvg::usvg::{Options, Transform, Tree};
 use tiny_skia::Pixmap;
+use junobuild_storage::types::store::AssetKey;
+use junobuild_storage::http::types::HeaderField;
 
 pub fn generate_social_image() -> Result<(), String> {
     let svg_data = r#"<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
@@ -52,4 +55,26 @@ fn convert_svg_to_png(svg_data: &str, width: u32, height: u32) -> Result<Vec<u8>
 
     // Now it's safe to move png_data
     Ok(png_data)
+}
+
+pub fn insert_asset(name: &String, data: &Vec<u8>) -> Result<(), String> {
+    print(format!("Json: {} {}", name, data.len()));
+
+    let collection = "images".to_string();
+
+    let key: AssetKey = AssetKey {
+        name: name.clone(),
+        full_path: format!("/{}/{}", collection, name.clone()).to_string(),
+        token: None,
+        collection,
+        owner: id(),
+        description: None,
+    };
+
+    let headers = vec![HeaderField(
+        "content-type".to_string(),
+        "image/png".to_string(),
+    )];
+
+    set_asset_handler(&key, data, &headers)
 }
