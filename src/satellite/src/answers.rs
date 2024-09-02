@@ -1,8 +1,10 @@
+use crate::types::EventsData;
 use ic_cdk::id;
-use junobuild_satellite::{count_docs_store, get_doc_store, OnSetDocContext, set_doc_store, SetDoc};
+use junobuild_satellite::{
+    count_docs_store, get_doc_store, set_doc_store, OnSetDocContext, SetDoc,
+};
 use junobuild_shared::types::list::{ListMatcher, ListParams};
 use junobuild_utils::{decode_doc_data, encode_doc_data};
-use crate::types::EventsData;
 
 pub fn count_event_answers(context: &OnSetDocContext) -> Result<(), String> {
     let event_key = context.data.data.after.description.clone();
@@ -23,7 +25,10 @@ fn count_and_save_answers(event_key: &String) -> Result<(), String> {
 
     let _ = save_count_answers(event_key, &count)?;
 
-    ic_cdk::print(format!("----___ ANSWERS ___----> on_set_doc {} {}", event_key, count));
+    ic_cdk::print(format!(
+        "----___ ANSWERS ___----> on_set_doc {} {}",
+        event_key, count
+    ));
 
     Ok(())
 }
@@ -66,18 +71,10 @@ fn save_count_answers(event_key: &String, count: &usize) -> Result<(), String> {
                 version: event.version,
             };
 
-            set_doc_store(
-                id(),
-                collection,
-                event_key.clone(),
-                doc,
-            )?;
+            set_doc_store(id(), collection, event_key.clone(), doc)?;
 
             Ok(())
-        },
-        None => {
-            Err("No document found, that is weird!".to_string())
         }
+        None => Err("No document found, that is weird!".to_string()),
     }
-
 }
