@@ -1,5 +1,6 @@
 mod types;
 mod answers;
+mod images;
 
 use junobuild_shared::types::list::{ListMatcher, ListParams};
 use ic_cdk::id;
@@ -10,11 +11,13 @@ use junobuild_macros::{
 };
 use junobuild_satellite::{include_satellite, AssertDeleteAssetContext, AssertDeleteDocContext, AssertSetDocContext, AssertUploadAssetContext, OnDeleteAssetContext, OnDeleteDocContext, OnDeleteManyAssetsContext, OnDeleteManyDocsContext, OnSetDocContext, OnSetManyDocsContext, OnUploadAssetContext, count_docs_store};
 use crate::answers::count_event_answers;
+use crate::images::generate_social_image;
 
 
-#[on_set_doc(collections = ["answers"])]
+#[on_set_doc(collections = ["answers", "events"])]
 async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
     match context.data.collection.as_str() {
+        "events" => generate_social_image(&context),
         "answers" => count_event_answers(&context),
         _ => Err("This is not supported".to_string())
     }
