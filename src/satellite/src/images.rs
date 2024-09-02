@@ -1,6 +1,8 @@
 use std::sync::Arc;
-use ic_cdk::print;
-use junobuild_satellite::OnSetDocContext;
+use ic_cdk::{id, print};
+use junobuild_satellite::{OnSetDocContext, set_asset_handler};
+use junobuild_storage::http::types::HeaderField;
+use junobuild_storage::types::store::AssetKey;
 use junobuild_utils::decode_doc_data;
 use png::Encoder;
 use resvg::usvg::fontdb::Database;
@@ -17,9 +19,9 @@ pub fn generate_social_image(context: &OnSetDocContext) -> Result<(), String> {
 
     let svg_data = prepare_svg(context)?;
 
-    let _png_bytes = convert_svg_to_png(&svg_data, 1200, 630).expect("Failed to convert SVG to PNG");
+    let png_bytes = convert_svg_to_png(&svg_data, 1200, 630)?;
 
-    // 4. We upload that PNG to the Storage
+    insert_asset(&context.data.key, &png_bytes)?;
 
     Ok(())
 }
@@ -70,6 +72,36 @@ fn convert_svg_to_png(svg_data: &str, width: u32, height: u32) -> Result<Vec<u8>
 
     // Now it's safe to move png_data
     Ok(png_data)
+}
+
+pub fn insert_asset(name: &String, data: &Vec<u8>) -> Result<(), String> {
+    let collection = "images".to_string();
+
+    let full_path = format!("/{}/{}.png", collection, name.clone()).to_string();
+
+    let key: AssetKey = AssetKey {
+        name: name.clone(),
+        full_path: full_path.clone(),
+        token: None,
+        collection,
+        owner: id(),
+        description: None,
+    };
+
+    let headers = vec![HeaderField(
+        "content-type".to_string(),
+        "image/png".to_string(),
+    )];
+
+    set_asset_handler(&key, data, &headers)?;
+
+    print(format!(
+        "Image generated to: http://{}.localhost:5987{}",
+        id(),
+        full_path
+    ));
+
+    Ok(())
 }
 
 fn prepare_svg(context: &OnSetDocContext) -> Result<String, String> {
