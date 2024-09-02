@@ -1,6 +1,7 @@
 mod types;
 mod answers;
 mod images;
+mod templates;
 
 use junobuild_shared::types::list::{ListMatcher, ListParams};
 use ic_cdk::id;
