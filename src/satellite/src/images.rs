@@ -1,20 +1,20 @@
-use std::sync::Arc;
+use crate::templates::SOCIAL_IMAGE_TEMPLATE;
+use crate::types::EventsData;
 use ic_cdk::{id, print};
-use junobuild_satellite::{OnSetDocContext, set_asset_handler};
+use junobuild_satellite::{set_asset_handler, OnSetDocContext};
 use junobuild_storage::http::types::HeaderField;
 use junobuild_storage::types::store::AssetKey;
 use junobuild_utils::decode_doc_data;
 use png::Encoder;
 use resvg::usvg::fontdb::Database;
 use resvg::usvg::{Options, Tree};
+use std::sync::Arc;
 use tiny_skia::{Pixmap, Transform};
-use crate::templates::SOCIAL_IMAGE_TEMPLATE;
-use crate::types::EventsData;
 
 pub fn generate_social_image(context: &OnSetDocContext) -> Result<(), String> {
     // Returns if this is not a new event
     if context.data.data.before.is_some() {
-        return Ok(())
+        return Ok(());
     }
 
     let svg_data = prepare_svg(context)?;
