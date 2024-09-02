@@ -16,7 +16,6 @@ use junobuild_satellite::{
     OnDeleteManyAssetsContext, OnDeleteManyDocsContext, OnSetDocContext, OnSetManyDocsContext,
     OnUploadAssetContext,
 };
-use junobuild_shared::types::list::{ListParams};
 
 #[on_set_doc(collections = ["answers", "events"])]
 async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
