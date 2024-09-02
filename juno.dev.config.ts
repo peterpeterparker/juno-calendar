@@ -19,7 +19,15 @@ export default defineDevConfig(() => ({
 					mutablePermissions: true
 				}
 			],
-			storage: []
+			storage: [
+				{
+					collection: 'images',
+					memory: 'stable' as const,
+					read: 'public' as const,
+					write: 'controllers' as const,
+					mutablePermissions: true
+				}
+			]
 		}
 	}
 }));
