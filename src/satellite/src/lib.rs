@@ -9,19 +9,14 @@ use junobuild_macros::{
     on_upload_asset,
 };
 use junobuild_satellite::{include_satellite, AssertDeleteAssetContext, AssertDeleteDocContext, AssertSetDocContext, AssertUploadAssetContext, OnDeleteAssetContext, OnDeleteDocContext, OnDeleteManyAssetsContext, OnDeleteManyDocsContext, OnSetDocContext, OnSetManyDocsContext, OnUploadAssetContext, count_docs_store};
-use crate::answers::count_and_save_answers;
+use crate::answers::count_event_answers;
+
 
 #[on_set_doc(collections = ["answers"])]
 async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
-    let event_key = context.data.data.after.description;
-
-    match event_key {
-        Some(event_key) => {
-            count_and_save_answers(&event_key)
-        },
-        None => {
-            Err("This is unexpected".to_string())
-        }
+    match context.data.collection.as_str() {
+        "answers" => count_event_answers(&context),
+        _ => Err("This is not supported".to_string())
     }
 }
 

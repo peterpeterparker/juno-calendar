@@ -1,10 +1,19 @@
 use ic_cdk::id;
-use junobuild_satellite::{count_docs_store, get_doc_store, set_doc_store, SetDoc};
+use junobuild_satellite::{count_docs_store, get_doc_store, OnSetDocContext, set_doc_store, SetDoc};
 use junobuild_shared::types::list::{ListMatcher, ListParams};
 use junobuild_utils::{decode_doc_data, encode_doc_data};
 use crate::types::EventsData;
 
-pub fn count_and_save_answers(event_key: &String) -> Result<(), String> {
+pub fn count_event_answers(context: &OnSetDocContext) -> Result<(), String> {
+    let event_key = context.data.data.after.description.clone();
+
+    match event_key {
+        Some(event_key) => count_and_save_answers(&event_key),
+        None => Err("This is unexpected".to_string()),
+    }
+}
+
+fn count_and_save_answers(event_key: &String) -> Result<(), String> {
     let count = count_answers(event_key)?;
 
     // TODO:
