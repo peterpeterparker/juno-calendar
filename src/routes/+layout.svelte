@@ -9,6 +9,7 @@
 
 	onMount(async () => {
 		await initSatellite({
+			container: true,
 			workers: {
 				auth: true
 			}
