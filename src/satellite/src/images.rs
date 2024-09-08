@@ -29,7 +29,7 @@ pub fn generate_social_image(context: &OnSetDocContext) -> Result<(), String> {
 fn convert_svg_to_png(svg_data: &str, width: u32, height: u32) -> Result<Vec<u8>, String> {
     // Initialize the font database and add the embedded font
     let mut fontdb = Database::new();
-    fontdb.load_font_data(include_bytes!("OpenSans-Regular.ttf").to_vec());
+    // fontdb.load_font_data(include_bytes!("OpenSans-Regular.ttf").to_vec());
 
     // Set up options with the custom font database
     let opt = Options {
