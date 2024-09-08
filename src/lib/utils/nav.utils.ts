@@ -11,10 +11,10 @@ export const loadEventKey = ($event: LoadEvent): RouteKey => {
 	}
 
 	const {
-		url: { searchParams }
+		params: { slug }
 	} = $event;
 
 	return {
-		key: searchParams?.get('key')
+		key: slug
 	};
 };
