@@ -4,6 +4,7 @@ use junobuild_collections::types::rules::Memory;
 use junobuild_shared::types::core::Blob;
 use junobuild_storage::http::types::HeaderField;
 use junobuild_storage::types::store::AssetKey;
+use scraper::{Html, Selector};
 
 pub fn prerender_event_page(context: &OnSetDocContext) -> Result<(), String> {
     let key = context.data.key.clone();
@@ -26,7 +27,8 @@ pub fn prerender_event_page(context: &OnSetDocContext) -> Result<(), String> {
             if let Some(blob) = first_content {
                 match blob {
                     Some(blob) => {
-                        return insert_asset(&key, blob)
+                        let edited_blog = edit_medata(&blob)?;
+                        return insert_asset(&key, &edited_blog)
                     }
                     None => {
                         return Err("No content found for sample file!".to_string());
@@ -39,7 +41,35 @@ pub fn prerender_event_page(context: &OnSetDocContext) -> Result<(), String> {
     Ok(())
 }
 
-pub fn insert_asset(name: &String, data: &Blob) -> Result<(), String> {
+fn edit_medata(data: &Blob) -> Result<Blob, String> {
+    let html_content = match String::from_utf8(data.clone()) {
+        Ok(content) => content,
+        Err(e) => {
+            return Err(e.to_string());
+        }
+    };
+
+    let document = Html::parse_document(&html_content);
+
+    let title_selector = Selector::parse("title").map_err(|e| e.to_string())?;
+    let title_element = document.select(&title_selector).next();
+
+    let title = "Super super".to_string();
+
+    match title_element {
+        None => {
+            return Err("No title tag found!".to_string());
+        },
+        Some(title_element) => {
+            let new_title_html = format!("<title>{}</title>", &title);
+            let result = document.root_element().html().replace(&title_element.html(), &new_title_html);
+
+            Ok(result.into_bytes())
+        }
+    }
+}
+
+fn insert_asset(name: &String, data: &Blob) -> Result<(), String> {
     let collection = "#dapp".to_string();
 
     let full_path = format!("/event/{}.html", name.clone()).to_string();
