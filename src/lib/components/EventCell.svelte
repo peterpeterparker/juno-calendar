@@ -12,34 +12,43 @@
 	$: shareUrl = `http://localhost:5173/event/?key=${eventDoc.key}`;
 
 	const onDelete = async () => {
-		const answers = await listDocs({
-			collection: 'answers',
-			filter: {
-				matcher: {
-					description: eventDoc.key
+		try {
+			const answers = await listDocs({
+				collection: 'answers',
+				filter: {
+					matcher: {
+						description: eventDoc.key
+					}
 				}
-			}
-		});
+			});
 
-		await deleteManyDocs({
-			docs: [
-				...answers.items.map((doc) => ({
-					collection: 'answers',
-					doc
-				})),
-				{
-					collection: 'events',
-					doc: eventDoc
-				}
-			]
-		});
+			// await deleteManyDocs({
+			// 	docs: [
+			// 		// ...answers.items.map((doc) => ({
+			// 		// 	collection: 'answers',
+			// 		// 	doc
+			// 		// })),
+			// 		{
+			// 			collection: 'events',
+			// 			doc: eventDoc
+			// 		}
+			// 	]
+			// });
 
-		emit({ message: 'exampleReload' });
+			await deleteDoc({
+				collection: 'events',
+				doc: eventDoc
+			})
 
-		alertStore.set({
-			type: 'success',
-			message: 'Document deleted!'
-		});
+			emit({ message: 'exampleReload' });
+
+			alertStore.set({
+				type: 'success',
+				message: 'Document deleted!'
+			});
+		} catch (err: unknown) {
+			console.log("ERRORORO", err);
+		}
 	};
 </script>
 
