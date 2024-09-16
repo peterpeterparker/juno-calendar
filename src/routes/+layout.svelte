@@ -6,6 +6,7 @@
 	import { appState } from '$lib/stores/app.store';
 	import Navbar from '$lib/components/Navbar.svelte';
 	import Alert from '$lib/components/Alert.svelte';
+	import { hello } from '../declarations/satellite/satellite.api';
 
 	onMount(async () => {
 		await initSatellite({
@@ -15,6 +16,8 @@
 		});
 
 		appState.set('initialized');
+
+		console.log(await hello('David'));
 	});
 </script>
 
