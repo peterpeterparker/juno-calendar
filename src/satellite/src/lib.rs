@@ -9,7 +9,7 @@ use crate::answers::count_event_answers;
 use crate::images::generate_social_image;
 use junobuild_macros::{assert_delete_doc, on_set_doc};
 use junobuild_satellite::{AssertDeleteDocContext, include_satellite, OnSetDocContext};
-use crate::assert::assert_no_answers;
+use crate::assert::assert_no_events;
 
 #[on_set_doc(collections = ["answers", "events"])]
 async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
@@ -20,9 +20,9 @@ async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
     }
 }
 
-#[assert_delete_doc(collections = ["events"])]
+#[assert_delete_doc(collections = ["answers"])]
 fn assert_delete_doc(context: AssertDeleteDocContext) -> Result<(), String> {
-    assert_no_answers(&context)
+    assert_no_events(&context)
 }
 
 #[query]

@@ -1,12 +1,12 @@
-use junobuild_satellite::AssertDeleteDocContext;
-use crate::answers::count_answers;
+use ic_cdk::id;
+use junobuild_satellite::{AssertDeleteDocContext, get_doc_store};
 
-pub fn assert_no_answers(context: &AssertDeleteDocContext) -> Result<(), String> {
-    let count = count_answers(&context.data.key)?;
+pub fn assert_no_events(context: &AssertDeleteDocContext) -> Result<(), String> {
+    let event = get_doc_store(id(), "events".to_string(), context.data.key.to_string())?;
 
-    if count > 0 {
-        Err(format!("Events has {} answer(s).", count))
-    } else {
-        Ok(())
+    if event.is_none() {
+        return Ok(());
     }
+
+    Err("The answer has still an event.".to_string())
 }

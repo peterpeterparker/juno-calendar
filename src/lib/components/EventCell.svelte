@@ -13,14 +13,14 @@
 
 	const onDelete = async () => {
 		try {
-			const answers = await listDocs({
-				collection: 'answers',
-				filter: {
-					matcher: {
-						description: eventDoc.key
-					}
-				}
-			});
+			// const answers = await listDocs({
+			// 	collection: 'answers',
+			// 	filter: {
+			// 		matcher: {
+			// 			description: eventDoc.key
+			// 		}
+			// 	}
+			// });
 
 			// await deleteManyDocs({
 			// 	docs: [
