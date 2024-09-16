@@ -3,6 +3,8 @@ mod images;
 mod templates;
 mod types;
 
+use candid::CandidType;
+use ic_cdk_macros::{query};
 use crate::answers::count_event_answers;
 use crate::images::generate_social_image;
 use junobuild_macros::{
@@ -74,6 +76,11 @@ fn assert_upload_asset(_context: AssertUploadAssetContext) -> Result<(), String>
 #[assert_delete_asset]
 fn assert_delete_asset(_context: AssertDeleteAssetContext) -> Result<(), String> {
     Ok(())
+}
+
+#[query]
+fn hello(text: String) -> String {
+    format!("Hello: {}", text)
 }
 
 include_satellite!();
