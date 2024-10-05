@@ -17,6 +17,20 @@ export default defineDevConfig(() => ({
 					read: 'public' as const,
 					write: 'public' as const,
 					mutablePermissions: true
+				},
+				{
+					collection: 'settings',
+					memory: 'stable' as const,
+					read: 'managed' as const,
+					write: 'managed' as const,
+					mutablePermissions: true
+				},
+				{
+					collection: 'env',
+					memory: 'stable' as const,
+					read: 'controllers' as const,
+					write: 'controllers' as const,
+					mutablePermissions: true
 				}
 			],
 			storage: [

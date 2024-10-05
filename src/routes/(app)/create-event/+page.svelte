@@ -75,11 +75,11 @@
 	};
 </script>
 
-<h1 class="text-2xl font-semibold mb-6 text-center">Create New Event</h1>
+<h1 class="text-2xl font-semibold mb-6 text-left mt-2">Create New Event</h1>
 
 <form
 	on:submit={async ($event) => await handleSubmit($event)}
-	class="space-y-6 bg-base-100 p-6 rounded-lg shadow-md"
+	class="space-y-6 bg-base-100 p-6 rounded-lg shadow-md mt-10"
 >
 	<div class="form-control">
 		<label class="label" for="event-title">

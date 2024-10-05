@@ -23,6 +23,11 @@
 							class={`hidden md:inline-flex ${currentPage === '/create-event' ? 'btn btn-primary' : 'btn btn-outline'}`}
 							>Create Event</a
 						>
+						<a
+							href="/settings"
+							class={`hidden md:inline-flex ${currentPage === '/settings' ? 'btn btn-primary' : 'btn btn-outline'}`}
+							>Settings</a
+						>
 					</div>
 				{/if}
 
