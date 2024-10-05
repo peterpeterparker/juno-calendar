@@ -14,7 +14,7 @@
 				"npm --prefix \"$RESOURCE_DIR\" run build"
 			],
 			"runtimeOptions": {
-				"timeoutSeconds": 300
+				"timeoutSeconds": 30
 			}
 		}
 	]
