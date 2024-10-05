@@ -4,8 +4,4 @@ import {app} from "./app";
 
 initializeApp();
 
-const runtimeOpts = {
-  timeoutSeconds: 300,
-};
-
-exports.datepicker = functions.runWith(runtimeOpts).https.onRequest(app);
+exports.datepicker = functions.https.onRequest(app);
