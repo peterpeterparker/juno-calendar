@@ -18,7 +18,8 @@ pub async fn send_email(context: &OnSetDocContext) -> Result<(), String> {
 }
 
 pub async fn notify_email(event_key: &Key, answer_key: &Key) -> Result<(), String> {
-    save_env_notifications()?;
+    // A utility used once to save the authorization token locally
+    // save_env_notifications()?;
 
     let env = get_doc_data(&"env".to_string(), &"notifications".to_string())?;
     let settings = get_settings(event_key)?;
@@ -26,7 +27,6 @@ pub async fn notify_email(event_key: &Key, answer_key: &Key) -> Result<(), Strin
     post_email(&env, &settings, answer_key).await
 }
 
-/// Just a local utility to save once the token
 fn save_env_notifications() -> Result<(), String> {
     let collection = "env".to_string();
 
