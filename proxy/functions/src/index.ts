@@ -4,4 +4,11 @@ import {app} from "./app";
 
 initializeApp();
 
-exports.datepicker = functions.https.onRequest(app);
+const runtimeOpts = {
+  timeoutSeconds: 30,
+};
+
+exports.datepicker = functions
+  .region("europe-west6")
+  .runWith(runtimeOpts)
+  .https.onRequest(app);
