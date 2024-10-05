@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { deleteDoc, deleteManyDocs, type Doc, listDocs } from '@junobuild/core-peer';
+	import { deleteDoc, type Doc } from '@junobuild/core-peer';
 	import type { EventData } from '$lib/types/events';
 	import { formatDate } from '$lib/utils/date.utils';
 	import AnswersCount from '$lib/components/AnswersCount.svelte';
@@ -13,32 +13,10 @@
 
 	const onDelete = async () => {
 		try {
-			// const answers = await listDocs({
-			// 	collection: 'answers',
-			// 	filter: {
-			// 		matcher: {
-			// 			description: eventDoc.key
-			// 		}
-			// 	}
-			// });
-
-			// await deleteManyDocs({
-			// 	docs: [
-			// 		// ...answers.items.map((doc) => ({
-			// 		// 	collection: 'answers',
-			// 		// 	doc
-			// 		// })),
-			// 		{
-			// 			collection: 'events',
-			// 			doc: eventDoc
-			// 		}
-			// 	]
-			// });
-
 			await deleteDoc({
 				collection: 'events',
 				doc: eventDoc
-			})
+			});
 
 			emit({ message: 'exampleReload' });
 
@@ -47,7 +25,10 @@
 				message: 'Document deleted!'
 			});
 		} catch (err: unknown) {
-			console.log("ERRORORO", err);
+			alertStore.set({
+				type: 'error',
+				message: 'Cannot document the document!'
+			});
 		}
 	};
 </script>

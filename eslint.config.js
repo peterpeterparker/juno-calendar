@@ -28,6 +28,13 @@ export default [
 		}
 	},
 	{
-		ignores: ['build/', '.svelte-kit/', 'package/', 'static/workers/**/*']
+		ignores: [
+			'build/',
+			'.svelte-kit/',
+			'package/',
+			'static/workers/**/*',
+			'proxy/**/*',
+			'src/declarations/**/*'
+		]
 	}
 ];
