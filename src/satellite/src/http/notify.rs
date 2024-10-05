@@ -31,7 +31,7 @@ fn save_env_notifications() -> Result<(), String> {
     let collection = "env".to_string();
 
     let data: EnvData = EnvData {
-        token: "".to_string(),
+        token: "<REPLACE_WITH_BEARER_TOKEN>".to_string(),
     };
 
     let encode_data = encode_doc_data(&data)?;
