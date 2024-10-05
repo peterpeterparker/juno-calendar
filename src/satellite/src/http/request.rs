@@ -3,6 +3,7 @@ use ic_cdk::api::management_canister::http_request::http_request as http_request
 use ic_cdk::api::management_canister::http_request::{
     CanisterHttpRequestArgument, HttpHeader, HttpMethod,
 };
+use ic_cdk::print;
 use junobuild_satellite::{error, log};
 use junobuild_shared::types::core::Key;
 use serde_json::json;
@@ -19,14 +20,23 @@ pub async fn post_email(
         request.url
     ))?;
 
+    print(format!(
+        "🔫 ---------> Starting the request. {}",
+        request.url
+    ));
+
     match http_request_outcall(request, 25_000_000_000).await {
         Ok((_response,)) => {
             log("✅ ---------> Request processed.".to_string())?;
+
+            print("✅ ---------> Request processed.".to_string());
         }
         Err((r, m)) => {
             let message = format!("HTTP request error. RejectionCode: {:?}, Error: {}", r, m);
 
             error(format!("‼️ --> {}.", message))?;
+
+            print(format!("‼️ --> {}.", message));
 
             // We do not bubble an error in this particular use case because we write the error in the datastore for demo purpose
         }
@@ -41,7 +51,7 @@ fn get_request(
     answer_key: &Key,
 ) -> Result<CanisterHttpRequestArgument, String> {
     let email_notifications_url =
-        " https://europe-west6-datepicker-xyz.cloudfunctions.net/datepicker/notifications/email";
+        "https://europe-west6-datepicker-xyz.cloudfunctions.net/datepicker/notifications/email";
 
     let request_headers = vec![
         HttpHeader {
