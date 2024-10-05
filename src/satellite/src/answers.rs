@@ -33,7 +33,7 @@ fn count_and_save_answers(event_key: &String) -> Result<(), String> {
     Ok(())
 }
 
-fn count_answers(event_key: &String) -> Result<usize, String> {
+pub fn count_answers(event_key: &String) -> Result<usize, String> {
     let params: ListParams = ListParams {
         owner: None,
         matcher: Some(ListMatcher {
