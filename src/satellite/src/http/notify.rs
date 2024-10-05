@@ -36,10 +36,17 @@ fn save_env_notifications() -> Result<(), String> {
 
     let encode_data = encode_doc_data(&data)?;
 
+    // If you ever need to update the token you have saved locally
+    // let env = get_doc_store(id(), collection.clone(), "notifications".to_string())?;
+    //
+    // if env.is_none() {
+    //    return Err("Unexpected".to_string());
+    // }
+
     let doc: SetDoc = SetDoc {
         data: encode_data,
         description: None,
-        version: None,
+        version: None, // env.unwrap().version.clone(),
     };
 
     set_doc_store(id(), collection, "notifications".to_string(), doc)?;
