@@ -1,1 +1,0 @@
-This project requires web2 infrastructure to send notifications.
