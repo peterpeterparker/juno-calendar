@@ -16,13 +16,13 @@ export const sendEmail = async ({
 }: {
   req: express.Request;
 }): Promise<DocumentData> => {
-  log(body);
+  const {to} = body;
 
   const mailOptions = {
     from: mailFrom,
-    to: mailFrom,
-    subject: "Hello World",
-    html: `<p>Yo</p>`,
+    to,
+    subject: "New Answer on DatePicker.xyz",
+    html: `<p>Hey 👋</p><p>You’ve received a new response on <a href="https://datepicker.xyz">DatePicker.xyz</a>! Check it out and stay on top of your schedule.</p>`,
   };
 
   try {
