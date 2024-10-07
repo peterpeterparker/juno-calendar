@@ -18,3 +18,13 @@ pub struct AnswerData {
     pub date: u64,
     pub checked: bool,
 }
+
+#[derive(Serialize, Deserialize)]
+pub struct EnvData {
+    pub token: String,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct SettingData {
+    pub email: String,
+}

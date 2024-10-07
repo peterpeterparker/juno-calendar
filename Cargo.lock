@@ -1318,6 +1318,7 @@ dependencies = [
  "candid",
  "ic-cdk",
  "ic-cdk-macros",
+ "junobuild-collections",
  "junobuild-macros",
  "junobuild-satellite",
  "junobuild-shared",
@@ -1327,6 +1328,7 @@ dependencies = [
  "resvg",
  "serde",
  "serde_cbor",
+ "serde_json",
  "tiny-skia",
 ]
 
