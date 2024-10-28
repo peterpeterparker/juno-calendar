@@ -35,7 +35,7 @@
 
 <div class="flex justify-between items-center mb-8">
 	<h1 class="text-2xl font-semibold">Your Events</h1>
-	<a class="btn btn-accent" href="/create-event">Create New Event</a>
+	<a class="btn btn-accent" href="/create-event" data-tid="btn-create-event">Create New Event</a>
 </div>
 
 <!-- Events Table -->

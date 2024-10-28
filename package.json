@@ -16,6 +16,7 @@
     "e2e": "NODE_ENV=development playwright test"
   },
   "devDependencies": {
+    "@dfinity/internet-identity-playwright": "^0.0.4",
     "@junobuild/config": "^0.0.14",
     "@junobuild/vite-plugin": "^0.0.18",
     "@playwright/test": "^1.48.2",
