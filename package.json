@@ -13,7 +13,8 @@
     "format": "prettier --write .",
     "postinstall:copy-auth": "node -e \"require('fs').cpSync('node_modules/@junobuild/core-peer/dist/workers/', './static/workers', {recursive: true});\"",
     "postinstall": "npm run postinstall:copy-auth",
-    "e2e": "NODE_ENV=development playwright test"
+    "e2e": "NODE_ENV=development playwright test",
+    "e2e:ci": "playwright test --reporter=html"
   },
   "devDependencies": {
     "@dfinity/internet-identity-playwright": "^0.0.4",
