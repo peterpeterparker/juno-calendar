@@ -17,3 +17,15 @@ testWithII('should sign-in with a new user', async ({page, iiPage}) => {
 
 	await expect(page.getByTestId('btn-create-event')).toBeVisible();
 });
+
+testWithII('should set user settings', async ({page, iiPage}) => {
+	await page.goto(appUrl);
+
+	await iiPage.signInWithNewIdentity();
+
+	await page.getByTestId('btn-settings').click();
+
+	await page.getByTestId('input-email').fill("test@test.com");
+
+	await page.getByTestId('btn-save-settings').click();
+});

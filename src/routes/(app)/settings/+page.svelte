@@ -99,6 +99,7 @@
 			placeholder="Enter your email address"
 			required
 			disabled={progress}
+			data-tid="input-email"
 		/>
 	</div>
 
@@ -106,6 +107,7 @@
 		type="submit"
 		class={`btn btn-primary btn-block ${progress ? 'opacity-50 cursor-not-allowed' : ''}`}
 		disabled={progress}
+		data-tid="btn-save-settings"
 	>
 		{progress ? 'Saving...' : 'Save'}
 	</button>
