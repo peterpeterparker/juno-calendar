@@ -13,5 +13,5 @@
 		By signing in, you can create new events, share them with your friends, and keep track of their
 		availability.
 	</p>
-	<button on:click={login} class="btn btn-primary">Sign In</button>
+	<button on:click={login} class="btn btn-primary" data-tid="login-button">Sign In</button>
 </div>
