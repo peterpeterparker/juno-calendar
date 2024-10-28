@@ -20,3 +20,7 @@ vite.config.ts.timestamp-*
 static/workers
 
 target
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
