@@ -21,7 +21,7 @@
 	});
 </script>
 
-<div class="flex flex-col min-h-screen bg-base-200">
+<div class="flex flex-col min-h-screen bg-primary">
 	<Navbar />
 
 	<!-- Main Content -->

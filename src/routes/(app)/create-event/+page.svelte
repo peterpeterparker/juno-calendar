@@ -79,7 +79,7 @@
 
 <form
 	on:submit={async ($event) => await handleSubmit($event)}
-	class="space-y-6 bg-base-100 p-6 rounded-lg shadow-md mt-10"
+	class="space-y-6 bg-base-100 p-6 border-2 border-black mt-10"
 >
 	<div class="form-control">
 		<label class="label" for="event-title">

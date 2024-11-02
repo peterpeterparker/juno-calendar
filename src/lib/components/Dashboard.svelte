@@ -39,7 +39,7 @@
 </div>
 
 <!-- Events Table -->
-<div class="overflow-x-auto space-y-6 bg-base-100 p-6 rounded-lg shadow-md">
+<div class="overflow-x-auto space-y-6 bg-base-100 p-6 border-2 border-black">
 	<table class="table w-full min-w-[600px]">
 		<thead>
 			<tr>

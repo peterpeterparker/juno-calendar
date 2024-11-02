@@ -1,4 +1,4 @@
-<footer class="footer text-base-content px-20 py-10 bg-base-100 shadow">
+<footer class="footer text-base-content px-4 md:px-20 py-10 bg-base-100 border-black border-t-2">
 	<aside class="flex flex-col justify-end h-full">
 		<a
 			href="https://juno.build"
