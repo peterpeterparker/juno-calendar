@@ -25,6 +25,7 @@
 							>Create Event</a
 						>
 						<a
+							data-tid="btn-settings"
 							href="/settings"
 							class={`hidden md:inline-flex ${currentPage === '/settings' ? 'btn btn-primary' : 'btn btn-outline'}`}
 							>Settings</a
