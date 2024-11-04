@@ -29,3 +29,4 @@ testWithII('should set user settings', async ({ page, iiPage }) => {
 
 	await page.getByTestId('btn-save-settings').click();
 });
+
