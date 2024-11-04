@@ -6,6 +6,7 @@
 		fullWidth?: boolean;
 		children?: import('svelte').Snippet;
 		onclick: () => Promise<void>;
+		testId?: string;
 	}
 
 	let {
@@ -14,7 +15,8 @@
 		type = undefined,
 		fullWidth = false,
 		children,
-		onclick
+		onclick,
+		testId
 	}: Props = $props();
 
 	let primary: boolean = $derived(color === 'primary');
@@ -28,6 +30,7 @@
 	{onclick}
 	{type}
 	{disabled}
+	data-tid={testId}
 	class="flex items-center gap-2 border-black border-2 transition-all rounded-none h-12 px-5 hover:shadow-[2px_2px_0px_rgba(0,0,0,1)]"
 	class:w-full={fullWidth}
 	class:justify-center={fullWidth}
