@@ -1,3 +1,4 @@
+// @ts-expect-error IDL is not typed
 export const idlFactory = ({ IDL }) => {
   const HttpHeader = IDL.Record({ 'value' : IDL.Text, 'name' : IDL.Text });
   const HttpResponse = IDL.Record({
@@ -15,4 +16,5 @@ export const idlFactory = ({ IDL }) => {
     'transform' : IDL.Func([TransformArgs], [HttpResponse], ['query']),
   });
 };
+// @ts-expect-error IDL is not typed
 export const init = ({ IDL }) => { return []; };
