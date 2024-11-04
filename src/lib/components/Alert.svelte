@@ -40,7 +40,7 @@
 				</svg>
 			{/if}
 			<span>{$alertStore.message}</span>
-			<button on:click={alertStore.reset} class="ml-4 text-xl font-bold cursor-pointer"
+			<button onclick={alertStore.reset} class="ml-4 text-xl font-bold cursor-pointer"
 				>&times;</button
 			>
 		</div>

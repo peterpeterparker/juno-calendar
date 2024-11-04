@@ -7,6 +7,11 @@
 	import Navbar from '$lib/components/Navbar.svelte';
 	import Alert from '$lib/components/Alert.svelte';
 	import { hello } from '../declarations/satellite/satellite.api';
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
 
 	onMount(async () => {
 		await initSatellite({
@@ -28,7 +33,7 @@
 	<div class="flex-grow container mx-auto px-4 py-8">
 		<Alert />
 
-		<slot />
+		{@render children?.()}
 	</div>
 
 	<Footer />

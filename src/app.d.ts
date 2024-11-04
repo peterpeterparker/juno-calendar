@@ -13,8 +13,8 @@ declare global {
 
 	declare namespace svelteHTML {
 		interface HTMLAttributes<T> {
-			'on:junoSignOutAuthTimer'?: (event: CustomEvent<any>) => void;
-			'on:exampleReload'?: (event: CustomEvent<any>) => void;
+			onjunoSignOutAuthTimer?: (event: CustomEvent<any>) => void;
+			onexampleReload?: (event: CustomEvent<any>) => void;
 		}
 	}
 

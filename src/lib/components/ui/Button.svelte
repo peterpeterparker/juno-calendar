@@ -1,27 +1,36 @@
 <script lang="ts">
-	export let color: 'primary' | 'secondary' | 'tertiary' | 'quaternary' = 'primary';
-	export let disabled = false;
-	export let type: 'submit' | 'button' | undefined = undefined;
-	export let fullWidth = false;
+	interface Props {
+		color?: 'primary' | 'secondary' | 'tertiary' | 'quaternary';
+		disabled?: boolean;
+		type?: 'submit' | 'button' | undefined;
+		fullWidth?: boolean;
+		children?: import('svelte').Snippet;
+		onclick: () => Promise<void>;
+		testId?: string;
+	}
 
-	let primary: boolean;
-	$: primary = color === 'primary';
+	let {
+		color = 'primary',
+		disabled = false,
+		type = undefined,
+		fullWidth = false,
+		children,
+		onclick,
+		testId
+	}: Props = $props();
 
-	let secondary: boolean;
-	$: secondary = color === 'secondary';
-
-	let tertiary: boolean;
-	$: tertiary = color === 'tertiary';
-
-	let quaternary: boolean;
-	$: quaternary = color === 'quaternary';
+	let primary: boolean = $derived(color === 'primary');
+	let secondary: boolean = $derived(color === 'secondary');
+	let tertiary: boolean = $derived(color === 'tertiary');
+	let quaternary: boolean = $derived(color === 'quaternary');
 </script>
 
 <button
 	class:opacity-20={disabled}
-	on:click
+	{onclick}
 	{type}
 	{disabled}
+	data-tid={testId}
 	class="flex items-center gap-2 border-black border-2 transition-all rounded-none h-12 px-5 hover:shadow-[2px_2px_0px_rgba(0,0,0,1)]"
 	class:w-full={fullWidth}
 	class:justify-center={fullWidth}
@@ -36,5 +45,5 @@
 	class:active:bg-lime-400={tertiary}
 	class:bg-white={quaternary}
 	class:hover:bg-gray-100={quaternary}
-	class:active:bg-gray-200={quaternary}><slot /></button
+	class:active:bg-gray-200={quaternary}>{@render children?.()}</button
 >

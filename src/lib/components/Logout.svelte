@@ -5,5 +5,5 @@
 </script>
 
 {#if $userSignedIn}
-	<button class="btn btn-secondary" in:fade on:click={signOut}>Logout</button>
+	<button class="btn btn-secondary" in:fade onclick={signOut}>Logout</button>
 {/if}
