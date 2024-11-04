@@ -17,5 +17,5 @@
 		By signing in, you can create events and share them with your friends or colleagues, to maybe
 		find a date to finally got that coffee you have been trying to schedule for months.
 	</p>
-	<Button on:click={login}>Sign In</Button>
+	<Button onclick={login}>Sign In</Button>
 </div>

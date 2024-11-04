@@ -8,10 +8,10 @@
 	import { nanoid } from 'nanoid';
 	import { alertStore } from '$lib/stores/alert.store';
 
-	let eventDoc: Doc<EventData> | undefined;
+	let eventDoc: Doc<EventData> | undefined = $state();
 
-	let firstname = '';
-	let answers: AnswerData[] | undefined;
+	let firstname = $state('');
+	let answers: AnswerData[] | undefined = $state();
 
 	const sortAnswers = ({ date: dateA }: AnswerData, { date: dateB }: AnswerData): number =>
 		dateA - dateB;
@@ -50,9 +50,13 @@
 		].sort(sortAnswers);
 	};
 
-	$: $eventKey, $appState, (async () => await loadEvent())();
+	$effect(() => {
+		$eventKey;
+		$appState;
+		loadEvent();
+	});
 
-	let progress = false;
+	let progress = $state(false);
 
 	const handleSubmit = async ($event: SubmitEvent) => {
 		$event.preventDefault();
@@ -121,7 +125,7 @@
 	<p class="mb-4">Select the dates you are available:</p>
 
 	<!-- Availability Form -->
-	<form class="space-y-4" on:submit={async ($event) => await handleSubmit($event)}>
+	<form class="space-y-4" onsubmit={async ($event) => await handleSubmit($event)}>
 		<div class="card shadow-md bg-base-100">
 			<div class="card-body">
 				<div class="form-control">
@@ -150,7 +154,7 @@
 								<input
 									type="checkbox"
 									class={`checkbox ${progress ? 'opacity-50 cursor-not-allowed' : ''}`}
-									on:change={() => onToggle(answer)}
+									onchange={() => onToggle(answer)}
 									disabled={progress}
 								/>
 							</label>

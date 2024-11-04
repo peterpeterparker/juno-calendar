@@ -6,10 +6,13 @@
 	import { emit } from '$lib/utils/events.utils';
 	import { alertStore } from '$lib/stores/alert.store';
 
-	export let eventDoc: Doc<EventData>;
+	interface Props {
+		eventDoc: Doc<EventData>;
+	}
 
-	let shareUrl: string;
-	$: shareUrl = `http://localhost:5173/event/?key=${eventDoc.key}`;
+	let { eventDoc }: Props = $props();
+
+	let shareUrl: string = $derived(`http://localhost:5173/event/?key=${eventDoc.key}`);
 
 	const onDelete = async () => {
 		try {
@@ -45,6 +48,6 @@
 	<td class="p-2 text-left w-1/4"><AnswersCount {eventDoc} /></td>
 	<td class="p-2 text-left w-1/6"><a href={shareUrl} class="text-primary">View Link</a></td>
 	<td class="p-2 text-left w-1/6">
-		<button class="btn btn-sm btn-outline btn-error" on:click={onDelete}>Delete</button>
+		<button class="btn btn-sm btn-outline btn-error" onclick={onDelete}>Delete</button>
 	</td>
 </tr>

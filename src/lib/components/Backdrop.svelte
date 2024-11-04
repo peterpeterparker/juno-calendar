@@ -1,5 +1,9 @@
 <script lang="ts">
-	export let spinner = false;
+	interface Props {
+		spinner?: boolean;
+	}
+
+	let { spinner = false }: Props = $props();
 </script>
 
 <div class:backdrop-blur-sm={spinner} class:backdrop-blur-xl={!spinner}>

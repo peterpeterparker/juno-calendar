@@ -20,12 +20,12 @@ export default {
 					warning: '#fff066',
 					error: '#f76363',
 
-					"--rounded-box": "0",
-					"--rounded-btn": "0",
-					"--rounded-badge": "0",
-					"--border-btn": "2px",
-					"--tab-border": "2px",
-					"--tab-radius": "0",
+					'--rounded-box': '0',
+					'--rounded-btn': '0',
+					'--rounded-badge': '0',
+					'--border-btn': '2px',
+					'--tab-border': '2px',
+					'--tab-radius': '0'
 				}
 			}
 		]

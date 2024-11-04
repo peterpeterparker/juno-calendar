@@ -5,6 +5,11 @@
 	import { userSignedIn } from '$lib/derived/user.derived';
 	import Login from '$lib/components/Login.svelte';
 	import { fade } from 'svelte/transition';
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
 
 	let unsubscribe: (() => void) | undefined = undefined;
 
@@ -14,11 +19,11 @@
 	const automaticSignOut = () => console.log('Automatically signed out because session expired');
 </script>
 
-<svelte:window on:junoSignOutAuthTimer={automaticSignOut} />
+<svelte:window onjunoSignOutAuthTimer={automaticSignOut} />
 
 {#if $userSignedIn}
 	<div in:fade>
-		<slot />
+		{@render children?.()}
 	</div>
 {:else}
 	<Login />

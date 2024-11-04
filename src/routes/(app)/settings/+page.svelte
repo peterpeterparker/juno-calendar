@@ -5,8 +5,8 @@
 	import type { SettingData } from '$lib/types/settings';
 	import { onMount } from 'svelte';
 
-	let email = '';
-	let progress = true;
+	let email = $state('');
+	let progress = $state(true);
 
 	let settings: Doc<SettingData> | undefined;
 
@@ -84,7 +84,7 @@
 <h1 class="text-2xl font-semibold mb-6 text-left mt-2">Settings</h1>
 
 <form
-	on:submit={async ($event) => await handleSubmit($event)}
+	onsubmit={async ($event) => await handleSubmit($event)}
 	class="space-y-6 bg-base-100 p-6 border-2 border-black mt-10"
 >
 	<div class="form-control">

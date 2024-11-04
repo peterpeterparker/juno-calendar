@@ -5,8 +5,7 @@
 	import { fade } from 'svelte/transition';
 	import { APP_NAME } from '$lib/constants/app.constants';
 
-	let currentPage: string;
-	$: currentPage = $page.url.pathname;
+	let currentPage: string = $derived($page.url.pathname);
 </script>
 
 <nav class="bg-accent border-black border-b-2">

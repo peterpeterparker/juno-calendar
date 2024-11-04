@@ -5,8 +5,8 @@
 	import { setDoc } from '@junobuild/core-peer';
 	import type { EventData } from '$lib/types/events';
 
-	let title = '';
-	let dates = [''];
+	let title = $state('');
+	let dates = $state(['']);
 
 	const addDateField = () => {
 		dates = [...dates, ''];
@@ -16,7 +16,7 @@
 		dates = dates.filter((_, i) => i !== index);
 	};
 
-	let progress = false;
+	let progress = $state(false);
 
 	const handleSubmit = async ($event: SubmitEvent) => {
 		$event.preventDefault();
@@ -78,7 +78,7 @@
 <h1 class="text-2xl font-semibold mb-6 text-left mt-2">Create New Event</h1>
 
 <form
-	on:submit={async ($event) => await handleSubmit($event)}
+	onsubmit={async ($event) => await handleSubmit($event)}
 	class="space-y-6 bg-base-100 p-6 border-2 border-black mt-10"
 >
 	<div class="form-control">
@@ -115,7 +115,7 @@
 						<button
 							type="button"
 							class={`btn btn-outline btn-error btn-sm ${progress ? 'opacity-50 cursor-not-allowed' : ''}`}
-							on:click={() => removeDateField(index)}
+							onclick={() => removeDateField(index)}
 							disabled={progress}
 						>
 							Remove
@@ -127,7 +127,7 @@
 		<button
 			type="button"
 			class={`btn btn-secondary btn-sm mt-2 ${progress ? 'opacity-50 cursor-not-allowed' : ''}`}
-			on:click={addDateField}
+			onclick={addDateField}
 			disabled={progress}
 		>
 			Add Date

@@ -5,7 +5,7 @@
 	import EventCell from '$lib/components/EventCell.svelte';
 	import { userStore } from '$lib/stores/user.store';
 
-	let items: Doc<EventData>[] = [];
+	let items: Doc<EventData>[] = $state([]);
 
 	const list = async () => {
 		if ($userNotSignedIn) {
@@ -28,10 +28,13 @@
 		items = data;
 	};
 
-	$: $userSignedIn, (async () => await list())();
+	$effect(() => {
+		$userSignedIn;
+		list();
+	});
 </script>
 
-<svelte:window on:exampleReload={list} />
+<svelte:window onexampleReload={list} />
 
 <div class="flex justify-between items-center mb-8">
 	<h1 class="text-2xl font-semibold">Your Events</h1>
