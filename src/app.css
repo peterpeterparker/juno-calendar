@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-[data-theme="custom"] .btn:not(.btn-outline) {
-    border-width: 2px;
-    border-color: black;
-    color: black;
+[data-theme='custom'] .btn:not(.btn-outline) {
+	border-width: 2px;
+	border-color: black;
+	color: black;
 }

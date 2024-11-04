@@ -1,1 +1,1 @@
-export const APP_NAME = "DatePicker"
+export const APP_NAME = 'DatePicker';
