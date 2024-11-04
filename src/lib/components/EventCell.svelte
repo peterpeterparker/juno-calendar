@@ -27,7 +27,7 @@
 				type: 'success',
 				message: 'Document deleted!'
 			});
-		} catch (err: unknown) {
+		} catch (_err: unknown) {
 			alertStore.set({
 				type: 'error',
 				message: 'Cannot document the document!'

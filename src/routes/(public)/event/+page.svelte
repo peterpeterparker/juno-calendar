@@ -51,7 +51,10 @@
 	};
 
 	$effect(() => {
+		// TODO: what's the proper Svelte v5 pattern for this?
+		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 		$eventKey;
+		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 		$appState;
 		loadEvent();
 	});

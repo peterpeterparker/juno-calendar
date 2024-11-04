@@ -101,7 +101,7 @@
 			<span class="label-text font-medium">Select Dates</span>
 		</label>
 		<div id="event-dates">
-			{#each dates as date, index}
+			{#each dates as _date, index}
 				<div class="flex items-center space-x-2 mb-2">
 					<input
 						type="date"

@@ -1,14 +1,14 @@
 <script lang="ts">
 	import type { EventData } from '$lib/types/events';
 	import { type Doc, listDocs } from '@junobuild/core-peer';
-	import { userNotSignedIn, userSignedIn } from '$lib/derived/user.derived';
+	import { userSignedIn } from '$lib/derived/user.derived';
 	import EventCell from '$lib/components/EventCell.svelte';
 	import { userStore } from '$lib/stores/user.store';
 
 	let items: Doc<EventData>[] = $state([]);
 
-	const list = async () => {
-		if ($userNotSignedIn) {
+	const list = async (signedIn: boolean) => {
+		if (!signedIn) {
 			items = [];
 			return;
 		}
@@ -29,12 +29,11 @@
 	};
 
 	$effect(() => {
-		$userSignedIn;
-		list();
+		list($userSignedIn);
 	});
 </script>
 
-<svelte:window onexampleReload={list} />
+<svelte:window onexampleReload={async () => await list($userSignedIn)} />
 
 <div class="flex justify-between items-center mb-8">
 	<h1 class="text-2xl font-semibold">Your Events</h1>
