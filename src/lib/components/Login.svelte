@@ -2,10 +2,11 @@
 	import { signIn } from '@junobuild/core-peer';
 	import { APP_NAME } from '$lib/constants/app.constants';
 	import Button from '$lib/components/ui/Button.svelte';
+	import { getOptionalDerivationOrigin } from '$lib/utils/auth.utils';
 
 	const login = async () => {
 		await signIn({
-			derivationOrigin: 'https://datepicker.xyz' // if we are on www.datepicker.xyz -> datepicker.xyz
+			...getOptionalDerivationOrigin()
 		});
 	};
 </script>
