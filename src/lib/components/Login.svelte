@@ -4,7 +4,9 @@
 	import Button from '$lib/components/ui/Button.svelte';
 
 	const login = async () => {
-		await signIn();
+		await signIn({
+			derivationOrigin: 'datepicker.xyz' // if we are on www.datepicker.xyz -> datepicker.xyz
+		});
 	};
 </script>
 
