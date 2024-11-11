@@ -5,7 +5,7 @@
 
 	const login = async () => {
 		await signIn({
-			derivationOrigin: 'datepicker.xyz' // if we are on www.datepicker.xyz -> datepicker.xyz
+			derivationOrigin: 'https://datepicker.xyz' // if we are on www.datepicker.xyz -> datepicker.xyz
 		});
 	};
 </script>
