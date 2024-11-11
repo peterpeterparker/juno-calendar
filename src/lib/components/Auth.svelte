@@ -5,6 +5,7 @@
 	import { userSignedIn } from '$lib/derived/user.derived';
 	import Login from '$lib/components/Login.svelte';
 	import { fade } from 'svelte/transition';
+	import { alertStore } from '$lib/stores/alert.store';
 	interface Props {
 		children?: import('svelte').Snippet;
 	}
@@ -16,7 +17,12 @@
 	onMount(() => (unsubscribe = authSubscribe((user) => userStore.set(user))));
 	onDestroy(() => unsubscribe?.());
 
-	const automaticSignOut = () => console.log('Automatically signed out because session expired');
+	const automaticSignOut = () => {
+		alertStore.set({
+			type: 'error',
+			message: 'Your session is expired. Please login again!'
+		});
+	};
 </script>
 
 <svelte:window onjunoSignOutAuthTimer={automaticSignOut} />
