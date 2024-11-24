@@ -4,8 +4,15 @@
 	import { userSignedIn } from '$lib/derived/user.derived';
 	import EventCell from '$lib/components/EventCell.svelte';
 	import { userStore } from '$lib/stores/user.store';
+	import Button from '$lib/components/ui/Button.svelte';
 
 	let items: Doc<EventData>[] = $state([]);
+
+	let previousEnabled = $state(true);
+	let nextEnabled = $state(true);
+
+	let startBefore: string | undefined = undefined;
+	let startAfter: string | undefined = undefined;
 
 	const list = async (signedIn: boolean) => {
 		if (!signedIn) {
@@ -18,14 +25,49 @@
 			return;
 		}
 
-		const { items: data } = await listDocs<EventData>({
+		const limit = 10;
+
+		const {
+			items: data,
+			matches_pages: matchesPages,
+			items_page: itemsPage,
+			items_length: itemsLength,
+			...rest
+		} = await listDocs<EventData>({
 			collection: 'events',
 			filter: {
-				owner: $userStore.key
+				owner: $userStore.key,
+				order: {
+					desc: false,
+					field: 'keys'
+				},
+				paginate: {
+					startAfter,
+					limit
+				}
 			}
 		});
 
+		startBefore = (itemsPage ?? 0n) > 1n ? startAfter : undefined;
+		startYolo = startAfter;
+		startAfter = matchesPages !== undefined ? data?.[Number(matchesPages - 1n)]?.key : undefined;
+
+		console.log(startBefore, startAfter, data)
+
+		previousEnabled = (itemsPage ?? 0n) > 0n;
+		nextEnabled = itemsLength === BigInt(limit);
+
 		items = data;
+	};
+
+	const previous = async () => {
+		startAfter = startBefore;
+
+		await list($userSignedIn);
+	};
+
+	const next = async () => {
+		await list($userSignedIn);
 	};
 
 	$effect(() => {
@@ -58,4 +100,14 @@
 			{/each}
 		</tbody>
 	</table>
+</div>
+
+<div class="flex gap-2 pt-4">
+	{#if previousEnabled}
+		<Button onclick={previous}>Previous</Button>
+	{/if}
+
+	{#if nextEnabled}
+		<Button onclick={next}>Next</Button>
+	{/if}
 </div>
