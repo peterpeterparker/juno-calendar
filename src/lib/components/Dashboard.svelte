@@ -5,14 +5,14 @@
 	import EventCell from '$lib/components/EventCell.svelte';
 	import { userStore } from '$lib/stores/user.store';
 	import Button from '$lib/components/ui/Button.svelte';
+	import { last } from '$lib/utils/array.utils';
 
 	let items: Doc<EventData>[] = $state([]);
 
 	let previousEnabled = $state(true);
 	let nextEnabled = $state(true);
 
-	let startBefore: string | undefined = undefined;
-	let startAfter: string | undefined = undefined;
+	let startAfter: string[] = [];
 
 	const list = async (signedIn: boolean) => {
 		if (!signedIn) {
@@ -31,8 +31,7 @@
 			items: data,
 			matches_pages: matchesPages,
 			items_page: itemsPage,
-			items_length: itemsLength,
-			...rest
+			items_length: itemsLength
 		} = await listDocs<EventData>({
 			collection: 'events',
 			filter: {
@@ -42,17 +41,11 @@
 					field: 'keys'
 				},
 				paginate: {
-					startAfter,
+					startAfter: last(startAfter),
 					limit
 				}
 			}
 		});
-
-		startBefore = (itemsPage ?? 0n) > 1n ? startAfter : undefined;
-		startYolo = startAfter;
-		startAfter = matchesPages !== undefined ? data?.[Number(matchesPages - 1n)]?.key : undefined;
-
-		console.log(startBefore, startAfter, data)
 
 		previousEnabled = (itemsPage ?? 0n) > 0n;
 		nextEnabled = itemsLength === BigInt(limit);
@@ -61,12 +54,16 @@
 	};
 
 	const previous = async () => {
-		startAfter = startBefore;
+		startAfter.pop();
 
 		await list($userSignedIn);
 	};
 
 	const next = async () => {
+		const lastKey = last(items ?? [])?.key;
+
+		startAfter = [...startAfter, ...(lastKey !== undefined ? [lastKey] : [])];
+
 		await list($userSignedIn);
 	};
 
