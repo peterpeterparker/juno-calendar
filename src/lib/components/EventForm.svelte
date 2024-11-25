@@ -6,12 +6,14 @@
 	import type { AnswerData, AnswersData } from '$lib/types/answers';
 	import type { EventData } from '$lib/types/events';
 	import { onMount } from 'svelte';
+	import Card from '$lib/components/Card.svelte';
 
 	interface Props {
 		eventDoc: Doc<EventData>;
+		onSuccess: () => void;
 	}
 
-	let { eventDoc }: Props = $props();
+	let { eventDoc, onSuccess }: Props = $props();
 
 	let firstname = $state('');
 	let answers: AnswerData[] | undefined = $state();
@@ -89,7 +91,7 @@
 				message: 'Your answers have been registered!'
 			});
 
-			// TODO: what do we do?
+			onSuccess();
 		} catch (err) {
 			alertStore.set({
 				type: 'error',
@@ -102,46 +104,44 @@
 	};
 </script>
 
-<form class="space-y-4 mt-4" onsubmit={async ($event) => await handleSubmit($event)}>
-	<div class="card shadow-md bg-base-100 border-2 border-black">
-		<div class="card-body">
-			<p>Select the dates you are available:</p>
+<form onsubmit={async ($event) => await handleSubmit($event)}>
+	<Card>
+		<p>Select the dates you are available:</p>
 
-			<div class="form-control">
-				<label class="label" for="event-title">
-					<span class="label-text font-medium">Your Firstname</span>
-				</label>
-				<input
-					type="text"
-					id="event-title"
-					class={`input input-bordered w-full ${progress ? 'opacity-50 cursor-not-allowed' : ''}`}
-					bind:value={firstname}
-					placeholder="Enter your firstname"
-					required
-					disabled={progress}
-				/>
-			</div>
+		<div class="form-control">
+			<label class="label" for="event-title">
+				<span class="label-text font-medium">Your Firstname</span>
+			</label>
+			<input
+				type="text"
+				id="event-title"
+				class={`input input-bordered w-full ${progress ? 'opacity-50 cursor-not-allowed' : ''}`}
+				bind:value={firstname}
+				placeholder="Enter your firstname"
+				required
+				disabled={progress}
+			/>
+		</div>
 
-			<div class="form-control">
-				<label class="label" for="event-proposed-dates">
-					<span class="label-text font-medium">Proposed Dates</span>
-				</label>
-				<div id="event-proposed-dates">
-					{#each answers ?? [] as answer (answer.date)}
-						<label class="label cursor-pointer">
-							<span class="label-text">{formatDate(new Date(answer.date))}</span>
-							<input
-								type="checkbox"
-								class={`checkbox ${progress ? 'opacity-50 cursor-not-allowed' : ''}`}
-								onchange={() => onToggle(answer)}
-								disabled={progress}
-							/>
-						</label>
-					{/each}
-				</div>
+		<div class="form-control">
+			<label class="label" for="event-proposed-dates">
+				<span class="label-text font-medium">Proposed Dates</span>
+			</label>
+			<div id="event-proposed-dates">
+				{#each answers ?? [] as answer (answer.date)}
+					<label class="label cursor-pointer">
+						<span class="label-text">{formatDate(new Date(answer.date))}</span>
+						<input
+							type="checkbox"
+							class={`checkbox ${progress ? 'opacity-50 cursor-not-allowed' : ''}`}
+							onchange={() => onToggle(answer)}
+							disabled={progress}
+						/>
+					</label>
+				{/each}
 			</div>
 		</div>
-	</div>
+	</Card>
 
 	<button
 		type="submit"
