@@ -4,6 +4,7 @@
 	import { type Doc, getDoc, setDoc } from '@junobuild/core-peer';
 	import type { SettingData } from '$lib/types/settings';
 	import { onMount } from 'svelte';
+	import Title from '$lib/components/Title.svelte';
 
 	let email = $state('');
 	let progress = $state(true);
@@ -81,7 +82,7 @@
 	};
 </script>
 
-<h1 class="text-2xl font-semibold mb-6 text-left mt-2">Settings</h1>
+<Title>Settings</Title>
 
 <form
 	onsubmit={async ($event) => await handleSubmit($event)}

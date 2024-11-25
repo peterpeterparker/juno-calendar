@@ -4,6 +4,7 @@
 	import { alertStore } from '$lib/stores/alert.store';
 	import { setDoc } from '@junobuild/core-peer';
 	import type { EventData } from '$lib/types/events';
+	import Title from '$lib/components/Title.svelte';
 
 	let title = $state('');
 	let dates = $state(['']);
@@ -75,7 +76,7 @@
 	};
 </script>
 
-<h1 class="text-2xl font-semibold mb-6 text-left mt-2">Create New Event</h1>
+<Title>Create New Event</Title>
 
 <form
 	onsubmit={async ($event) => await handleSubmit($event)}

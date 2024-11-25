@@ -7,6 +7,7 @@
 	import type { AnswerData, AnswersData } from '$lib/types/answers';
 	import { nanoid } from 'nanoid';
 	import { alertStore } from '$lib/stores/alert.store';
+	import Title from '$lib/components/Title.svelte';
 
 	let eventDoc: Doc<EventData> | undefined = $state();
 
@@ -124,13 +125,14 @@
 </script>
 
 {#if eventDoc !== undefined}
-	<h1 class="text-2xl font-semibold mb-4">{eventDoc.data.title ?? 'Unknown'}</h1>
-	<p class="mb-4">Select the dates you are available:</p>
+	<Title>{eventDoc.data.title ?? 'Unknown'}</Title>
 
 	<!-- Availability Form -->
-	<form class="space-y-4" onsubmit={async ($event) => await handleSubmit($event)}>
-		<div class="card shadow-md bg-base-100">
+	<form class="space-y-4 mt-4" onsubmit={async ($event) => await handleSubmit($event)}>
+		<div class="card shadow-md bg-base-100 border-2 border-black">
 			<div class="card-body">
+				<p>Select the dates you are available:</p>
+
 				<div class="form-control">
 					<label class="label" for="event-title">
 						<span class="label-text font-medium">Your Firstname</span>

@@ -6,6 +6,7 @@
 	import { userStore } from '$lib/stores/user.store';
 	import Button from '$lib/components/ui/Button.svelte';
 	import { last } from '$lib/utils/array.utils';
+	import Title from '$lib/components/Title.svelte';
 
 	let items: Doc<EventData>[] = $state([]);
 
@@ -74,7 +75,7 @@
 <svelte:window onexampleReload={async () => await list($userSignedIn)} />
 
 <div class="flex justify-between items-center mb-8">
-	<h1 class="text-2xl font-semibold">Your Events</h1>
+	<Title>Your Events</Title>
 	<a class="btn btn-accent" href="/create-event" data-tid="btn-create-event">Create New Event</a>
 </div>
 
