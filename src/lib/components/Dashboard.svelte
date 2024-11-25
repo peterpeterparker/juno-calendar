@@ -29,7 +29,6 @@
 
 		const {
 			items: data,
-			matches_pages: matchesPages,
 			items_page: itemsPage,
 			items_length: itemsLength
 		} = await listDocs<EventData>({
