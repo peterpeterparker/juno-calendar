@@ -16,7 +16,7 @@ serde_json = "1.0.114"
 resvg = { version = "0.43.0", default-features = false, features = ["text"] }
 tiny-skia = "0.11.4"
 png = "0.17.5"
-junobuild-satellite = { version = "= 0.0.21-patch.1", default-features = false, features = ["on_set_doc", "assert_delete_doc", "on_delete_doc"] }
+junobuild-satellite = { version = "= 0.0.21-patch.2", default-features = false, features = ["on_set_doc", "assert_delete_doc", "on_delete_doc"] }
 junobuild-macros = "0.0.3"
 junobuild-utils = "0.0.4"
 junobuild-shared = "0.0.22"

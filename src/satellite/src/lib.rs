@@ -1,6 +1,7 @@
 mod answers;
 mod assert;
 mod delete;
+mod guards;
 mod http;
 mod images;
 mod templates;
@@ -9,6 +10,7 @@ mod types;
 use crate::answers::count_event_answers;
 use crate::assert::assert_no_events;
 use crate::delete::delete_answers;
+use crate::guards::caller_is_admin_controller;
 use crate::http::notify::send_email;
 use crate::http::response::transform_response;
 use crate::images::generate_social_image;
@@ -43,7 +45,7 @@ async fn on_delete_doc(context: OnDeleteDocContext) -> Result<(), String> {
     delete_answers(&context)
 }
 
-#[query]
+#[query(guard = "caller_is_admin_controller")]
 fn hello(text: String) -> String {
     format!("Hello: {}", text)
 }
