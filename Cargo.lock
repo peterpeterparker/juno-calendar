@@ -891,9 +891,9 @@ dependencies = [
 
 [[package]]
 name = "junobuild-satellite"
-version = "0.0.21-patch.1"
+version = "0.0.21-patch.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bbe3785f3e717fd200041f751efdb3ac6201aee701048a6cfd41026bdae109cf"
+checksum = "f1a4a324ce8c27824ae40a0f7b8950815843c806a5a9b1be89fbe748a28ab207"
 dependencies = [
  "candid",
  "ciborium",
@@ -909,7 +909,6 @@ dependencies = [
  "rand",
  "regex",
  "serde",
- "serde_cbor",
  "serde_json",
  "url",
 ]
