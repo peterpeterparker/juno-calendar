@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { userStore } from '$lib/stores/user.store';
 	import { alertStore } from '$lib/stores/alert.store';
-	import { type Doc, getDoc, setDoc } from '@junobuild/core-peer';
+	import { type Doc, getDoc, setDoc } from '@junobuild/core';
 	import type { SettingData } from '$lib/types/settings';
 	import { onMount } from 'svelte';
 	import Title from '$lib/components/Title.svelte';

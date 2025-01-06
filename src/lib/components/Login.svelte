@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { signIn } from '@junobuild/core-peer';
+	import { signIn } from '@junobuild/core';
 	import { APP_NAME } from '$lib/constants/app.constants';
 	import Button from '$lib/components/ui/Button.svelte';
 	import { getOptionalDerivationOrigin } from '$lib/utils/auth.utils';

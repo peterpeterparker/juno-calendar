@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Doc } from '@junobuild/core-peer';
+	import type { Doc } from '@junobuild/core';
 	import type { EventData } from '$lib/types/events';
 
 	interface Props {

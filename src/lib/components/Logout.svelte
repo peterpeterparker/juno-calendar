@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { signOut } from '@junobuild/core-peer';
+	import { signOut } from '@junobuild/core';
 	import { userSignedIn } from '$lib/derived/user.derived';
 	import { fade } from 'svelte/transition';
 </script>

@@ -2,7 +2,7 @@
 	import { userStore } from '$lib/stores/user.store';
 	import { nanoid } from 'nanoid';
 	import { alertStore } from '$lib/stores/alert.store';
-	import { setDoc } from '@junobuild/core-peer';
+	import { setDoc } from '@junobuild/core';
 	import type { EventData } from '$lib/types/events';
 	import Title from '$lib/components/Title.svelte';
 

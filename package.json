@@ -11,7 +11,7 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
-		"postinstall:copy-auth": "node -e \"require('fs').cpSync('node_modules/@junobuild/core-peer/dist/workers/', './static/workers', {recursive: true});\"",
+		"postinstall:copy-auth": "node -e \"require('fs').cpSync('node_modules/@junobuild/core/dist/workers/', './static/workers', {recursive: true});\"",
 		"postinstall": "npm run postinstall:copy-auth",
 		"e2e": "NODE_ENV=development playwright test",
 		"e2e:ci": "playwright test --reporter=html"
@@ -45,7 +45,7 @@
 		"vite": "^5.4.10"
 	},
 	"dependencies": {
-		"@junobuild/core-peer": "^0.0.28",
+		"@junobuild/core": "^0.1.0",
 		"svelte-confetti": "^2.2.0"
 	}
 }

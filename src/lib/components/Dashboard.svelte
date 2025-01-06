@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { EventData } from '$lib/types/events';
-	import { type Doc, listDocs } from '@junobuild/core-peer';
+	import { type Doc, listDocs } from '@junobuild/core';
 	import { userSignedIn } from '$lib/derived/user.derived';
 	import EventCell from '$lib/components/EventCell.svelte';
 	import { userStore } from '$lib/stores/user.store';
