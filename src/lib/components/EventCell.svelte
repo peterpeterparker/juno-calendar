@@ -12,7 +12,9 @@
 
 	let { eventDoc }: Props = $props();
 
-	let shareUrl: string = $derived(`http://localhost:5173/event/?key=${eventDoc.key}`);
+	let shareUrl: string = $derived(
+		`${window.location.origin}/event?key=${eventDoc.key}`
+	);
 
 	const onDelete = async () => {
 		try {
