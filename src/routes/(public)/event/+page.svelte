@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { eventKey } from '$lib/derived/page.derived';
-	import { type Doc, getDoc } from '@junobuild/core-peer';
+	import { type Doc, getDoc } from '@junobuild/core';
 	import type { EventData } from '$lib/types/events';
 	import { appState } from '$lib/stores/app.store';
 	import Title from '$lib/components/Title.svelte';

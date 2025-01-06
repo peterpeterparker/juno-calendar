@@ -2,7 +2,7 @@
 	import { formatDate } from '$lib/utils/date.utils';
 	import { alertStore } from '$lib/stores/alert.store';
 	import { nanoid } from 'nanoid';
-	import { type Doc, setDoc } from '@junobuild/core-peer';
+	import { type Doc, setDoc } from '@junobuild/core';
 	import type { AnswerData, AnswersData } from '$lib/types/answers';
 	import type { EventData } from '$lib/types/events';
 	import { onMount } from 'svelte';

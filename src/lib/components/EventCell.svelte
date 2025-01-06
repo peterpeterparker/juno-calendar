@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { deleteDoc, type Doc } from '@junobuild/core-peer';
+	import { deleteDoc, type Doc } from '@junobuild/core';
 	import type { EventData } from '$lib/types/events';
 	import { formatDate } from '$lib/utils/date.utils';
 	import AnswersCount from '$lib/components/AnswersCount.svelte';

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { initSatellite } from '@junobuild/core-peer';
+	import { initSatellite } from '@junobuild/core';
 	import Footer from '$lib/components/Footer.svelte';
 	import '../app.css';
 	import { appState } from '$lib/stores/app.store';

@@ -3,7 +3,7 @@
 
 import type {_SERVICE as SatelliteActor, HttpHeader, HttpResponse, TransformArgs} from './satellite.did';
 import {idlFactory} from './satellite.factory.did.js';
-import {getSatelliteExtendedActor} from '@junobuild/core-peer';
+import {getSatelliteExtendedActor} from '@junobuild/core';
 
 export const buildVersion = async (): Promise<string> => {
 	const {build_version} = await getSatelliteExtendedActor<SatelliteActor>({
