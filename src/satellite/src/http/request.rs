@@ -73,6 +73,7 @@ fn get_request(
 
     let template = String::from_utf8_lossy(EMAIL_TEMPLATE_HTML);
 
+    // TODO: replace "Bob" with effective name of the person answering
     let email_body = template.replace("{{name}}", "Bob");
 
     let body = json!({
