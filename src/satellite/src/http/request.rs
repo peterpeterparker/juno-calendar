@@ -77,8 +77,8 @@ fn get_request(
 
     let body = json!({
       "to": settings.email.to_owned(),
-        "subject": "New Answer on DatePicker.xyz".to_string(),
-        "body": email_body
+      "subject": "New Answer on DatePicker.xyz".to_string(),
+      "body": email_body
     });
 
     let body_json = serde_json::to_string(&body).map_err(|e| e.to_string())?;
