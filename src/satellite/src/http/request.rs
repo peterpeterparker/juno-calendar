@@ -75,12 +75,12 @@ fn get_request(
     let template = String::from_utf8_lossy(EMAIL_TEMPLATE_HTML);
 
     // TODO: replace "Bob" with effective name of the person answering
-    let email_body = template.replace("{{name}}", "Bob");
+    let email_html = template.replace("{{name}}", "Bob");
 
     let body = json!({
       "to": settings.email.to_owned(),
       "subject": "New Answer on DatePicker.xyz".to_string(),
-      "body": email_body
+      "html": email_html
     });
 
     let body_json = serde_json::to_string(&body).map_err(|e| e.to_string())?;
