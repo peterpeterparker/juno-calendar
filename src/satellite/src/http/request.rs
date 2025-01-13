@@ -46,6 +46,9 @@ pub async fn post_email(
     Ok(())
 }
 
+const EMAIL_TEMPLATE_HTML: &[u8] =
+    include_bytes!("../../resources/email-notification-answer.html");
+
 fn get_request(
     env: &EnvData,
     settings: &SettingData,
@@ -69,8 +72,15 @@ fn get_request(
         },
     ];
 
+    let template = String::from_utf8_lossy(EMAIL_TEMPLATE_HTML);
+
+    // TODO: replace "Bob" with effective name of the person answering
+    let email_html = template.replace("{{name}}", "Bob");
+
     let body = json!({
       "to": settings.email.to_owned(),
+      "subject": "New Answer on DatePicker.xyz".to_string(),
+      "html": email_html
     });
 
     let body_json = serde_json::to_string(&body).map_err(|e| e.to_string())?;
