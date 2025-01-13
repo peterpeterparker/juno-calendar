@@ -50,7 +50,7 @@ fn hello(text: String) -> String {
     format!("Hello: {}", text)
 }
 
-#[query]
+#[query(hidden = true)]
 fn transform(raw: TransformArgs) -> HttpResponse {
     transform_response(raw)
 }
