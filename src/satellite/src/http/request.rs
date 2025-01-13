@@ -1,3 +1,4 @@
+use crate::http::response::param_transform;
 use crate::types::{EnvData, SettingData};
 use ic_cdk::api::management_canister::http_request::http_request as http_request_outcall;
 use ic_cdk::api::management_canister::http_request::{
@@ -89,7 +90,7 @@ fn get_request(
         method: HttpMethod::POST,
         body: Some(body_json.as_bytes().to_vec()),
         max_response_bytes: None,
-        transform: None,
+        transform: param_transform(),
         headers: request_headers,
     })
 }
