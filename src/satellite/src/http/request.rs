@@ -1,5 +1,5 @@
 use crate::http::response::param_transform;
-use crate::types::{EnvData, SettingData};
+use crate::types::{AnswersData, EnvData, SettingData};
 use ic_cdk::api::management_canister::http_request::http_request as http_request_outcall;
 use ic_cdk::api::management_canister::http_request::{
     CanisterHttpRequestArgument, HttpHeader, HttpMethod,
@@ -13,8 +13,9 @@ pub async fn post_email(
     env: &EnvData,
     settings: &SettingData,
     answer_key: &Key,
+    answer_data: &AnswersData,
 ) -> Result<(), String> {
-    let request = get_request(env, settings, answer_key)?;
+    let request = get_request(env, settings, answer_key, answer_data)?;
 
     log(format!(
         "🔫 ---------> Starting the request. {}",
@@ -46,13 +47,13 @@ pub async fn post_email(
     Ok(())
 }
 
-const EMAIL_TEMPLATE_HTML: &[u8] =
-    include_bytes!("../../resources/email-notification-answer.html");
+const EMAIL_TEMPLATE_HTML: &[u8] = include_bytes!("../../resources/email-notification-answer.html");
 
 fn get_request(
     env: &EnvData,
     settings: &SettingData,
     answer_key: &Key,
+    answer_data: &AnswersData,
 ) -> Result<CanisterHttpRequestArgument, String> {
     let email_notifications_url =
         "https://europe-west6-datepicker-xyz.cloudfunctions.net/datepicker/notifications/email";
@@ -74,8 +75,7 @@ fn get_request(
 
     let template = String::from_utf8_lossy(EMAIL_TEMPLATE_HTML);
 
-    // TODO: replace "Bob" with effective name of the person answering
-    let email_html = template.replace("{{name}}", "Bob");
+    let email_html = template.replace("{{name}}", &answer_data.firstname);
 
     let body = json!({
       "to": settings.email.to_owned(),

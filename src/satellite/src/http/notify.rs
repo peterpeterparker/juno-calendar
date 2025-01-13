@@ -1,5 +1,5 @@
 use crate::http::request::post_email;
-use crate::types::{EnvData, SettingData};
+use crate::types::{AnswerData, AnswersData, EnvData, SettingData};
 use ic_cdk::id;
 use junobuild_collections::types::core::CollectionKey;
 use junobuild_satellite::{get_doc_store, set_doc_store, OnSetDocContext, SetDoc};
@@ -10,21 +10,26 @@ use serde::de::DeserializeOwned;
 pub async fn send_email(context: &OnSetDocContext) -> Result<(), String> {
     let event_key = context.data.data.after.description.clone();
     let answer_key = context.data.key.clone();
+    let answer_data: AnswersData = decode_doc_data(&context.data.data.after.data)?;
 
     match event_key {
-        Some(event_key) => notify_email(&event_key, &answer_key).await,
+        Some(event_key) => notify_email(&event_key, &answer_key, &answer_data).await,
         None => Err("This is unexpected".to_string()),
     }
 }
 
-pub async fn notify_email(event_key: &Key, answer_key: &Key) -> Result<(), String> {
+pub async fn notify_email(
+    event_key: &Key,
+    answer_key: &Key,
+    answer_data: &AnswersData,
+) -> Result<(), String> {
     // A utility used once to save the authorization token locally
     // save_env_notifications()?;
 
     let env = get_doc_data(&"env".to_string(), &"notifications".to_string())?;
     let settings = get_settings(event_key)?;
 
-    post_email(&env, &settings, answer_key).await
+    post_email(&env, &settings, answer_key, answer_data).await
 }
 
 fn save_env_notifications() -> Result<(), String> {
